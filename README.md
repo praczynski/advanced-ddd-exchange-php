@@ -1,4 +1,8 @@
 
+## APP module dependencies direction 
+![uLAB DDD - grupa 9 1 - IWW](https://github.com/coztymit/advanced-ddd-exchange-java/assets/79380870/c5585e38-0286-4d22-8e5a-072ca3af234e)
+
+
 ## What do you need to run this project
 - PHP 8.2.8
 - Symfony 6.3
@@ -69,5 +73,4 @@ docker-compose down and docker-compose up --force-recreate
 
 Example dealer number: ABC-01-2023-123
 
-## APP module dependencies direction 
-![uLAB DDD - grupa 9 1 - IWW](https://github.com/coztymit/advanced-ddd-exchange-java/assets/79380870/c5585e38-0286-4d22-8e5a-072ca3af234e)
+
