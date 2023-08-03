@@ -66,3 +66,8 @@ docker run -d --name exchange-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-mana
 Docker compose
 Role "postgres" does not exist.
 docker-compose down and docker-compose up --force-recreate
+
+Example dealer number: ABC-01-2023-123
+
+## APP module dependencies direction 
+![uLAB DDD - grupa 9 1 - IWW](https://github.com/coztymit/advanced-ddd-exchange-java/assets/79380870/c5585e38-0286-4d22-8e5a-072ca3af234e)
