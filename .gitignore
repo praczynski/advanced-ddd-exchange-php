@@ -50,3 +50,26 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+
+# Specific for MacOS
+.DS_Store
+
+# Specific for Symfony
+/bin/
+/var/
+/vendor/
+
+# Ignore .env files as they contain sensitive data
+/.env*
+/docker-compose.override.yml
+
+# Ignore IDE specific files
+.idea/
+*.iml
+
+# Other files to ignore
+/composer.lock
+/symfony.lock
+
+# Doctrine Migrations (depends on the project configuration)
+/migrations
