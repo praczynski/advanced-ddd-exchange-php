@@ -60,7 +60,6 @@
 /vendor/
 
 # Ignore .env files as they contain sensitive data
-/.env*
 /docker-compose.override.yml
 
 # Ignore IDE specific files
