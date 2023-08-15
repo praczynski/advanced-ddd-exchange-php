@@ -2,16 +2,14 @@
 
 namespace App\Account\Domain;
 
-use Brick\Math\BigDecimal;
-
 class WalletData {
     private string $walletIdString;
     private WalletId $walletId;
     private string $funds;
-    private BigDecimal $fundsValue;
+    private string $fundsValue;
     private string $fundsCurrency;
 
-    public function __construct(WalletId $walletId, BigDecimal $fundsValue, string $fundsCurrency) {
+    public function __construct(WalletId $walletId, string $fundsValue, string $fundsCurrency) {
         $this->walletId = $walletId;
         $this->walletIdString = $walletId->toString();
         $this->funds = $fundsValue . ' ' . $fundsCurrency;
@@ -24,7 +22,7 @@ class WalletData {
         return $this->walletIdString;
     }
 
-    public function getFundsValue(): BigDecimal
+    public function getFundsValue(): string
     {
         return $this->fundsValue;
     }
@@ -44,7 +42,7 @@ class WalletData {
         $this->walletIdString = $walletIdString;
     }
 
-    public function setFundsValue(BigDecimal $fundsValue): void
+    public function setFundsValue(string $fundsValue): void
     {
         $this->fundsValue = $fundsValue;
     }
@@ -63,6 +61,4 @@ class WalletData {
     {
         $this->funds = $funds;
     }
-
-
 }
