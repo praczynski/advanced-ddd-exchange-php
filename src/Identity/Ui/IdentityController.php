@@ -4,73 +4,110 @@ namespace App\Identity\Ui;
 
 use App\Identity\Application\CreateIdentityCommand;
 use App\Identity\Application\IdentityApplicationService;
-use App\Identity\Domain\Identity;
-use App\Identity\Domain\IdentityRepository;
-use App\Kernel\BigDecimal\BigDecimal;
-use App\Kernel\Currency;
 use App\Kernel\IdentityId;
-use App\Kernel\Money;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use OpenApi\Annotations as OA;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 
 class IdentityController extends AbstractController
 {
-    private IdentityRepository $identityRepository;
     private IdentityApplicationService $identityApplicationService;
+    private SerializerInterface $serializer;
 
-    public function __construct(IdentityRepository $identityRepository, IdentityApplicationService $identityApplicationService)
+    public function __construct(IdentityApplicationService $identityApplicationService, SerializerInterface $serializer)
     {
-        $this->identityRepository = $identityRepository;
-           $this->identityApplicationService = $identityApplicationService;
-
+        $this->serializer = $serializer;
+        $this->identityApplicationService = $identityApplicationService;
     }
 
     /**
-     * @Route("/identity/new{uuid}", name="identity_new", methods={"POST"})
+     * @Route("/identities/all", methods={"GET"})
+     *
+     * @Operation(
+     *      tags={"Identity"},
+     *      summary="Get all identity IDs",
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="List of Identity IDs",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(type="string", format="uuid", example="f47ac10b-58cc-4372-a567-0e02b2c3d479")
+     *          )
+     *      )
+     * )
+     */
+    public function getAllIdentityIds(): JsonResponse {
+        $identityIds = $this->identityApplicationService->getAllIdentityIds();
+        return new JsonResponse($identityIds);
+    }
+
+    /**
+     * @Route("/identity", name="identity_create", methods={"POST"})
      *
      * @Operation(
      *     tags={"Identity"},
      *     summary="Creates a new identity",
      *
-     *     security={{"api_key_security_example": {}}}
+     *    @OA\RequestBody(
+     *          description="Identity data",
+     *          required=true,
+     *          @OA\JsonContent(ref=@Model(type=IdentityRequest::class))
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Identity created",
+     *      )
      * )
      */
-    public function index(string $uuid): Response
+    public function createIdentity(Request $request): Response
     {
-        $identity = new Identity();
+        $identityRequest = $this->serializer->deserialize($request->getContent(), IdentityRequest::class, 'json');
 
-        $this->identityRepository->save($identity);
+        $command = new CreateIdentityCommand($identityRequest->getPesel(), $identityRequest->getFirstName(), $identityRequest->getSurname(), $identityRequest->getEmail());
+        $status = $this->identityApplicationService->createIdentity($command);
 
-        $money1 = new Money(new BigDecimal('101.22'), new Currency('EUR'));
-        $money2 = new Money(new BigDecimal('101.25'), new Currency('EUR'));
-
-        return new Response($identity->identityId()->toString(), Response::HTTP_OK);
+        $jsonString = $this->serializer->serialize($status, 'json');
+        return new Response($jsonString, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
 
     /**
-     * @Route("/identity/create", name="identity_create", methods={"POST"})
+     * @Route("/identity/{identityId}", methods={"GET"})
      *
      * @Operation(
-     *     tags={"Identity"},
-     *     summary="Creates a new identity",
+     *      tags={"Identity"},
+     *      summary="Get the identity",
      *
-     *     security={{"api_key_security_example": {}}}
+     *      @OA\Parameter(
+     *          name="identityId",
+     *          in="path",
+     *          description="Identity ID to retrieve",
+     *          required=true,
+     *          @OA\Schema(type="string", format="uuid", example="f47ac10b-58cc-4372-a567-0e02b2c3d479")
+     *
+     *      ),
+     *
+     *      security={{"api_key_security_example": {}}}
      * )
      */
-    public function createIdentity(): Response
+    public function getIdentity(string $identityId):  Response
     {
-        $createIdentityCommand = new CreateIdentityCommand(
-            IdentityId::generate(),
-            '12345678901',
-            'Jan',
-            'Kowalski', 'kontakt@coztymit.pl'
-        );
+        $identityResponse = $this->identityApplicationService->getIdentity(new IdentityId(Uuid::fromString($identityId)));
+        $jsonString = $this->serializer->serialize($identityResponse, 'json');
 
-        $this->identityApplicationService->createIdentity($createIdentityCommand);
-        return new Response('OK', Response::HTTP_OK);
+        //TODO how to use $jsonResponse = new JsonResponse($identityResponse);
+
+       return new Response($jsonString, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
+
+
 
 }

@@ -25,3 +25,23 @@ services:
             - '@serializer'
             - '@old_sound_rabbit_mq.identity_producer_producer'
 
+    App\Account\Infrastructure\Amqp\AMQPAccountDomainEventBus:
+        arguments:
+            - '@serializer'
+            - '@old_sound_rabbit_mq.identity_producer_producer'
+
+    App\Account\Infrastructure\Db\DBAccountRepository:
+        tags:
+            - { name: 'account.repository', key: 'db' }
+
+    App\Account\Infrastructure\ElasticAccountRepository:
+        tags:
+            - { name: 'account.repository', key: 'elastic' }
+
+    App\Account\Application\AccountApplicationService:
+        arguments:
+            $dbAccountRepository: '@App\Account\Infrastructure\Db\DBAccountRepository'
+
+    App\Account\Domain\AccountFactory:
+        arguments:
+            $dbAccountRepository: '@App\Account\Infrastructure\Db\DBAccountRepository'

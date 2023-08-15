@@ -60,7 +60,18 @@ kill -9 <PID>
 
 UUID: 3f6f8cb0-c8a8-4a94-a668-5d495be325f9
 
-PESEL: 73052358124
+PESEL: 
+73052358124
+
+66082265528
+
+79071495941
+
+52032013341
+
+01220623785
+
+63121959617
 
 ## manual run db and postgress
 docker run --name exchange-db_container -e POSTGRES_PASSWORD=sa -e POSTGRES_DB=sa -p 5432:5432 -d postgres
@@ -73,4 +84,8 @@ docker-compose down and docker-compose up --force-recreate
 
 Example dealer number: ABC-01-2023-123
 
+Reported Doctrine issue with DQL (where with embedded Value object)
+https://github.com/doctrine/orm/issues/10898
 
+Verify - local and remote message routing 
+https://symfony.com/doc/current/messenger.html

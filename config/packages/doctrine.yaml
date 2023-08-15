@@ -2,6 +2,10 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         profiling_collect_backtrace: '%kernel.debug%'
+        types:
+            account_number: 'App\Account\Infrastructure\Db\AccountNumberType'
+            wallet_id: 'App\Account\Infrastructure\Db\WalletIdType'
+            big_decimal: 'App\Kernel\BigDecimal\BigDecimalType'
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
@@ -10,18 +14,18 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
-                is_bundle: false
-                type: attribute
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
             Identity:
                 is_bundle: false
                 type: attribute
                 dir: '%kernel.project_dir%/src/Identity/Domain'
                 prefix: 'App\Identity\Domain'
                 alias: Identity
+            Account:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Account/Domain'
+                prefix: 'App\Account\Domain'
+                alias: Account
             Kernel:
                 is_bundle: false
                 type: attribute

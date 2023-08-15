@@ -2,10 +2,14 @@
 
 namespace App\Kernel;
 
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embeddable;
+
+#[Embeddable]
 class Currency
 {
+    #[Column(name: "code", type: "string")]
     private string $code;
-
 
     public function __construct(string $code)
     {
@@ -14,6 +18,15 @@ class Currency
         }
 
         $this->code = $code;
+    }
+    public static function PLN():Currency
+    {
+        return new Currency("PLN");
+    }
+
+    public static function EUR():Currency
+    {
+        return new Currency("EUR");
     }
 
     public function equals(Currency $currency): bool

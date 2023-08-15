@@ -23,6 +23,11 @@ class IdentityId
         return new IdentityId(Uuid::uuid4());
     }
 
+    public static function fromString(string $uuid): IdentityId
+    {
+        return new IdentityId(Uuid::fromString($uuid));
+    }
+
     public function toString(): string
     {
         return $this->uuid->toString();

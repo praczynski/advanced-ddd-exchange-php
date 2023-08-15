@@ -20,8 +20,6 @@ class IdentityConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg): bool|int
     {
         $data = json_decode($msg->body, true);
-
-        // Deserializacja wiadomości do obiektu klasy IdentityCreated
         $event = $this->serializer->deserialize($msg->body, IdentityCreated::class, 'json');
         print_r($event);
 

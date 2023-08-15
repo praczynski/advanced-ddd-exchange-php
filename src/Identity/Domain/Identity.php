@@ -4,7 +4,6 @@ namespace App\Identity\Domain;
 
 use App\Kernel\IdentityId;
 use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
@@ -37,15 +36,13 @@ class Identity
     #[Embedded(class: "Surname")]
     private Surname $surname;
 
-    public function __construct()
+    public function __construct(IdentityId $identityId, PESEL $pesel, FirstName $firstName, Email $email, Surname $surname)
     {
-        $this->version = 0;
-        $this->identityId = IdentityId::generate();
-        $this->pesel = new PESEL('73052358124');
-        $this->email = new Email('lsutula@coztymit.pl');
-        $this->firstName = new FirstName('Łukasz');
-        $this->surname = new Surname('Sutuła');
-
+        $this->identityId = $identityId;
+        $this->pesel = $pesel;
+        $this->email = $email;
+        $this->firstName = $firstName;
+        $this->surname = $surname;
     }
 
     public function identityId(): IdentityId
@@ -69,6 +66,22 @@ class Identity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return PESEL
+     */
+    public function getPesel(): PESEL
+    {
+        return $this->pesel;
+    }
+
+    /**
+     * @param PESEL $pesel
+     */
+    public function setPesel(PESEL $pesel): void
+    {
+        $this->pesel = $pesel;
     }
 
 }

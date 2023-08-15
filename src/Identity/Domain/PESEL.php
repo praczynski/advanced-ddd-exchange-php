@@ -11,7 +11,7 @@ class PESEL {
     #[Column(name: "value", type: "string")]
     private string $value;
 
-    public function __construct(?string $value) {
+    public function __construct(string $value) {
         if (!$this->isValidPesel($value)) {
             throw new \InvalidArgumentException("Invalid PESEL.");
         }
@@ -43,7 +43,8 @@ class PESEL {
         return $checkSum === intval($pesel[10]);
     }
 
-    public function __toString() {
+    public function toString(): string
+    {
         return $this->value;
     }
 }

@@ -7,25 +7,17 @@ use Ramsey\Uuid\UuidInterface;
 
 class CreateIdentityCommand
 {
-
-    private IdentityId $identityId;
     private string $pesel;
-    private string$firstName;
+    private string $firstName;
     private string $surname;
     private string $email;
 
-    public function __construct($identityId, $pesel, $firstName, $surname, $email)
+    public function __construct($pesel, $firstName, $surname, $email)
     {
-        $this->identityId = $identityId;
         $this->pesel = $pesel;
         $this->firstName = $firstName;
         $this->surname = $surname;
         $this->email = $email;
-    }
-
-    public function getIdentityId(): IdentityId
-    {
-        return $this->identityId;
     }
 
     public function getPesel(): string

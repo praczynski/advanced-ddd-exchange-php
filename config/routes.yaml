@@ -4,6 +4,12 @@ controllers:
         namespace: App\Identity\Ui
     type: attribute
 
+account_controllers:
+    resource:
+        path: ../src/Account/Ui
+        namespace: App\Account\Ui
+    type: annotation
+
 app.swagger_ui:
     path: /api/doc
     methods: GET
