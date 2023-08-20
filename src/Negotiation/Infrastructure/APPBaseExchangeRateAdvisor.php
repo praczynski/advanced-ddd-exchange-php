@@ -3,7 +3,7 @@
 namespace App\Negotiation\Infrastructure;
 
 
-use App\Currency\CurrencyPairApplicationService;
+use App\Currency\Application\CurrencyPairApplicationService;
 use App\Kernel\BigDecimal\BigDecimal;
 use App\Kernel\Currency;
 use App\Negotiation\Application\BaseExchangeRateAdvisor;
