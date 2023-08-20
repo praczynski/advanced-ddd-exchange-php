@@ -33,9 +33,8 @@ class WalletId {
         return new WalletId(Uuid::fromString($uuid));
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
         return $this->uuid->toString();
     }
-
 }

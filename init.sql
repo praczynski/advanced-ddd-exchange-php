@@ -22,9 +22,9 @@ CREATE TABLE transactions
     transaction_number_uuid UUID           NOT NULL PRIMARY KEY,
     account_number_uuid     UUID           NOT NULL,
     transaction_type_value   VARCHAR(255)   NOT NULL,
-    funds_value   DECIMAL(19, 2) NOT NULL,
-    funds_code     VARCHAR(3)     NOT NULL,
-    transaction_date   TIMESTAMP      NOT NULL DECIMAL(19, 2) NOT NULL,
+    value_value_value   DECIMAL(19, 2) NOT NULL,
+    value_value_currency_code     VARCHAR(3)     NOT NULL,
+    transaction_date   TIMESTAMP      NOT NULL,
     CONSTRAINT fk_transaction_account_number FOREIGN KEY (account_number_uuid) REFERENCES accounts (account_number_uuid)
 );
 
@@ -32,8 +32,8 @@ CREATE TABLE wallets
 (
     wallet_id_uuid      UUID           NOT NULL PRIMARY KEY,
     account_number_uuid UUID           NOT NULL,
-    fund_value_value_value     DECIMAL(19, 2) NOT NULL,
-    fund_value_currency_code  VARCHAR(3)     NOT NULL,
+    funds_value     DECIMAL(19, 2) NOT NULL,
+    funds_code  VARCHAR(3)     NOT NULL,
     CONSTRAINT fk_wallet_account_number FOREIGN KEY (account_number_uuid) REFERENCES accounts (account_number_uuid)
 );
 
@@ -63,44 +63,48 @@ CREATE TABLE currency_pairs
 );
 CREATE TABLE negotiations
 (
-    negotiation_id             UUID           NOT NULL PRIMARY KEY,
-    negotiator_identity_id     UUID           NOT NULL,
-    operator_id                UUID,
+    id SERIAL NOT NULL PRIMARY KEY,
+    negotiation_id_uuid             UUID           NOT NULL UNIQUE,
+    negotiator_identity_id_uuid     UUID           NOT NULL,
+    operator_operator_id_uuid                UUID,
     expiration_date            TIMESTAMP,
-    target_currency            VARCHAR(3)     NOT NULL,
-    base_currency              VARCHAR(3)     NOT NULL,
-    proposed_exchange_amount   DECIMAL(15, 2) NOT NULL,
-    proposed_exchange_currency VARCHAR(3)     NOT NULL,
-    propose_exchange_rate      DECIMAL(15, 2) NOT NULL,
-    base_exchange_rate         DECIMAL(15, 2) NOT NULL,
-    difference_in_percentage   DECIMAL(15, 2) NOT NULL,
-    status                     varchar(255)
+    target_currency_code            VARCHAR(3)     NOT NULL,
+    base_currency_code              VARCHAR(3)     NOT NULL,
+    proposed_exchange_amount_value_value   DECIMAL(15, 2) NOT NULL,
+    proposed_exchange_amount_currency_code VARCHAR(3)     NOT NULL,
+    negotiation_rate_proposed_rate_value      DECIMAL(15, 2) NOT NULL,
+    negotiation_rate_base_exchange_rate_value        DECIMAL(15, 2) NOT NULL,
+    negotiation_rate_difference_in_percentage_value   DECIMAL(15, 2) NOT NULL,
+    status_status                     varchar(255)
 );
 
 CREATE TABLE risk_assessments
 (
-    risk_assessment_number UUID        NOT NULL PRIMARY KEY,
-    negotiator_identity_id UUID        NOT NULL,
-    risk_level             VARCHAR(10) NOT NULL
+    id SERIAL NOT NULL PRIMARY KEY,
+    risk_assessment_number_uuid UUID        NOT NULL,
+    negotiator_identity_id_uuid UUID        NOT NULL,
+    risk_level_level             VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE risk_lines
 (
-    risk_line_id                    UUID           NOT NULL PRIMARY KEY,
-    negotiation_id                  UUID           NOT NULL,
-    risk_negotiation_value_amount   DECIMAL(15, 2) NOT NULL,
-    risk_negotiation_value_currency CHAR(3)        NOT NULL,
-    risk_assessment_number          UUID           NOT NULL,
-    CONSTRAINT fk_risk_assessment_number FOREIGN KEY (risk_assessment_number) REFERENCES risk_assessments (risk_assessment_number)
+    id SERIAL NOT NULL PRIMARY KEY,
+    risk_line_id_uuid                    UUID           NOT NULL,
+    negotiation_id_uuid                  UUID           NOT NULL,
+    risk_negotiation_value_value   DECIMAL(15, 2) NOT NULL,
+    risk_negotiation_value_code CHAR(3)        NOT NULL,
+    risk_assessment_id INT NOT NULL,
+    CONSTRAINT fk_risk_assessment_id FOREIGN KEY (risk_assessment_id) REFERENCES risk_assessments (id)
 );
 
 CREATE TABLE supported_currencies
 (
-    supported_currency_id UUID           NOT NULL PRIMARY KEY,
-    base_currency         VARCHAR(3)     NOT NULL,
-    target_currency       VARCHAR(3)     NOT NULL,
-    rate                  DECIMAL(15, 2) NOT NULL,
-    status                VARCHAR(255)   NOT NULL
+    id SERIAL NOT NULL PRIMARY KEY,
+    supported_currency_id_uuid UUID           NOT NULL,
+    base_currency_code         VARCHAR(3)     NOT NULL,
+    target_currency_code       VARCHAR(3)     NOT NULL,
+    rate_value_value                  DECIMAL(15, 2) NOT NULL,
+    status_status                VARCHAR(255)   NOT NULL
 );
 CREATE TABLE new_client_promotions
 (
@@ -127,11 +131,11 @@ INSERT INTO accounts (account_number_uuid, trader_identity_id_uuid, trader_numbe
 VALUES
     ('9c3627e7-d5be-4f7e-8e52-4b7fca97d0a0', '123e4567-e89b-12d3-a456-426655440000', 'ABC-01-2023-123', 'INACTIVE');
 
-INSERT INTO transactions (transaction_number_uuid, account_number_uuid, transaction_type_value, fund_value_value_value, fund_value_currency_code, transaction_date)
+INSERT INTO transactions (transaction_number_uuid, account_number_uuid, transaction_type_value, value_value_value, value_value_currency_code, transaction_date)
 VALUES
     ('f49c5c94-3b0e-467c-94c1-2b8356db8cfa', '9c3627e7-d5be-4f7e-8e52-4b7fca97d0a0', 'CARD', 100.00, 'PLN', CURRENT_TIMESTAMP);
 
-INSERT INTO wallets (wallet_id_uuid, account_number_uuid, fund_value_value_value, fund_value_currency_code)
+INSERT INTO wallets (wallet_id_uuid, account_number_uuid, funds_value, funds_code)
 VALUES
     ('ea1f5ded-9a48-4083-a7b7-3b526dbf1768', '9c3627e7-d5be-4f7e-8e52-4b7fca97d0a0', 100.00, 'PLN');
 
@@ -140,11 +144,11 @@ INSERT INTO accounts (account_number_uuid, trader_identity_id_uuid, trader_numbe
 VALUES
     ('3f0f3b8e-6d75-4f61-9c8a-4a64f9e6b267', '123e4567-e89b-12d3-a456-426655440001', 'XYZ-01-2023-123', 'INACTIVE');
 
-INSERT INTO transactions (transaction_number_uuid, account_number_uuid, transaction_type_value, fund_value_value_value, fund_value_currency_code, transaction_date)
+INSERT INTO transactions (transaction_number_uuid, account_number_uuid, transaction_type_value, value_value_value, value_value_currency_code, transaction_date)
 VALUES
     ('7f7ccae0-8ad9-4754-a361-b37a87c2d0c8', '3f0f3b8e-6d75-4f61-9c8a-4a64f9e6b267', 'CARD', 500.00, 'PLN', CURRENT_TIMESTAMP);
 
-INSERT INTO wallets (wallet_id_uuid, account_number_uuid, fund_value_value_value, fund_value_currency_code)
+INSERT INTO wallets (wallet_id_uuid, account_number_uuid, funds_value, funds_code)
 VALUES
     ('4cd50a81-4bb4-4e2a-bf62-58c8ed51307b', '3f0f3b8e-6d75-4f61-9c8a-4a64f9e6b267', 500.00, 'PLN');
 

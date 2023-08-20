@@ -26,6 +26,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Account/Domain'
                 prefix: 'App\Account\Domain'
                 alias: Account
+            Negotiation:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Negotiation/Domain'
+                prefix: 'App\Negotiation\Domain'
+                alias: Negotiation
             Kernel:
                 is_bundle: false
                 type: attribute

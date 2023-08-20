@@ -4,6 +4,7 @@ namespace App\Kernel\BigDecimal;
 
 use Brick\Math\Exception\MathException;
 use Brick\Math\BigDecimal as BrickBigDecimal;
+use Brick\Math\RoundingMode;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;
 
@@ -28,6 +29,11 @@ class BigDecimal
     public static function fromString(string $value): BigDecimal
     {
         return new BigDecimal($value);
+    }
+
+    public static function fromBrickBigDecimal(BrickBigDecimal $value): BigDecimal
+    {
+       return new BigDecimal($value->jsonSerialize());
     }
 
     public function add(BigDecimal $value): BigDecimal
@@ -63,12 +69,38 @@ class BigDecimal
 
     }
 
-    public function subtract(BigDecimal $value)
+    public function subtract(BigDecimal $value): BigDecimal
     {
         try {
             return new BigDecimal($this->value->minus($value->value)->jsonSerialize());
         } catch (MathException $e) {
             throw new \InvalidArgumentException('Invalid value');
         }
+    }
+
+    public function divide(BigDecimal $divisor, int $scale = 2, int $roundingMode = RoundingMode::HALF_UP): BigDecimal
+    {
+        try {
+            $result = $this->value->dividedBy($divisor->value, $scale, $roundingMode);
+            return new BigDecimal($result->jsonSerialize());
+        } catch (MathException $e) {
+            throw new \InvalidArgumentException('Invalid value');
+        }
+    }
+
+    public function isNegativeOrZero(): bool
+    {
+        return $this->value->isNegativeOrZero();
+    }
+
+    /**
+     * It takes a callable function (converter) as an argument and applies it to the IdentityId instance.
+     *
+     * @param callable $converter
+     * @return mixed
+     */
+    public function identity(callable $converter): mixed
+    {
+        return $converter($this->identityId);
     }
 }

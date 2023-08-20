@@ -45,3 +45,35 @@ services:
     App\Account\Domain\AccountFactory:
         arguments:
             $dbAccountRepository: '@App\Account\Infrastructure\Db\DBAccountRepository'
+
+
+    #Negotiation policies
+    App\Negotiation\Domain\Policy\MoreThan2000PLNAutomaticApprovePolicy:
+        tags:
+            - { name: 'negotiation.automatic.approve.policy' }
+
+    App\Negotiation\Domain\Policy\MoreThan500EURAutomaticApprovePolicy:
+        tags:
+            - { name: 'negotiation.automatic.approve.policy' }
+
+    #Negotiation event buses
+
+    App\Negotiation\Application\NegotiationEventBus:
+        arguments:
+            $riskAssessmentApplicationService: '@App\Negotiation\Application\RiskAssessmentApplicationService'
+        tags:
+            - { name: 'app.negotiation.event.bus' }
+
+    App\Negotiation\Infrastructure\Amqp\AMQPNegotiationEventBus:
+        arguments:
+            $serializer: '@Symfony\Component\Serializer\SerializerInterface'
+            $producer: '@old_sound_rabbit_mq.identity_producer_producer'
+        tags:
+            - { name: 'app.negotiation.event.bus' }
+
+    App\Negotiation\Application\NegotiationApplicationService:
+        arguments:
+            $negotiationAmountAutomaticApprovePolicies: !tagged_iterator negotiation.automatic.approve.policy
+            $eventBuses: !tagged_iterator app.negotiation.event.bus
+
+

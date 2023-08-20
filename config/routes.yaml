@@ -10,6 +10,12 @@ account_controllers:
         namespace: App\Account\Ui
     type: annotation
 
+negotiation_controllers:
+    resource:
+        path: ../src/Negotiation/Ui
+        namespace: App\Negotiation\Ui
+    type: annotation
+
 app.swagger_ui:
     path: /api/doc
     methods: GET

@@ -59,6 +59,7 @@ class Account {
 
     public function depositFunds(Funds $funds, TransactionType $transactionType): void
     {
+
         $transactionLimitPolicy = new WithoutTransactionLimitPolicy();
 
         if (!$transactionLimitPolicy->withinTheLimit($funds)) {
@@ -68,6 +69,7 @@ class Account {
         $walletToDeposit = $this->getWalletByCurrency($funds);
 
         if ($walletToDeposit === null) {
+
             $walletsLimitPolicy = new WithoutWalletsLimitPolicy();
 
             if ($walletsLimitPolicy->isWalletsLimitExceeded($this->wallets->count())) {
@@ -78,6 +80,7 @@ class Account {
         } else {
             $walletToDeposit->addFunds($funds);
         }
+
 
         // $this->transactions[] = new Transaction($transactionType, $funds);
     }

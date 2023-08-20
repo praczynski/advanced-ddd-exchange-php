@@ -30,6 +30,7 @@ class Funds {
         if ($value->getScale() > 2 || $value->compareTo(new BigDecimal("0")) < 0) {
             throw new \InvalidArgumentException("Value cannot have more than 2 decimal places");
         }
+
         return new Funds(new Money($value, $currency));
     }
 

@@ -11,7 +11,7 @@ class WalletData {
 
     public function __construct(WalletId $walletId, string $fundsValue, string $fundsCurrency) {
         $this->walletId = $walletId;
-        $this->walletIdString = $walletId->toString();
+        $this->walletIdString = $walletId->__toString();
         $this->funds = $fundsValue . ' ' . $fundsCurrency;
         $this->fundsValue = $fundsValue;
         $this->fundsCurrency = $fundsCurrency;

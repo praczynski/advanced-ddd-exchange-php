@@ -51,5 +51,4 @@ class Wallet {
     {
         return $this->walletId;
     }
-
 }

@@ -21,6 +21,7 @@
         "symfony/dotenv": "6.3.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.3.*",
+        "symfony/mailer": "6.3.*",
         "symfony/property-access": "6.3.*",
         "symfony/runtime": "6.3.*",
         "symfony/serializer": "6.3.*",
@@ -74,7 +75,12 @@
     "extra": {
         "symfony": {
             "allow-contrib": true,
-            "require": "6.3.*"
+            "require": "6.3.*",
+            "docker": true
         }
+    },
+    "require-dev": {
+        "symfony/stopwatch": "6.3.*",
+        "symfony/web-profiler-bundle": "6.3.*"
     }
 }

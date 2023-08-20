@@ -22,6 +22,8 @@
 - composer require symfony/serializer
 - composer require symfony/property-access
 - composer require brick/math
+- symfony/swiftmailer-bundle
+- symfony/profiler-pack
 
 
 ## Run project 
@@ -35,6 +37,9 @@ run docker-compose.yml
 
 ### Swagger
 http://127.0.0.1:8000/api/doc
+
+### MailCatcher
+http://localhost:64185/
 
 ### Rabbit
 http://localhost:15672
@@ -89,3 +94,5 @@ https://github.com/doctrine/orm/issues/10898
 
 Verify - local and remote message routing 
 https://symfony.com/doc/current/messenger.html
+
+
