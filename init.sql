@@ -54,12 +54,13 @@ CREATE TABLE quotes
 
 CREATE TABLE currency_pairs
 (
-    currency_pair_id UUID           NOT NULL PRIMARY KEY,
-    base_currency    VARCHAR(3)     NOT NULL,
-    target_currency  VARCHAR(3)     NOT NULL,
-    base_rate        DECIMAL(15, 2) NOT NULL,
-    adjusted_rate    DECIMAL(15, 2),
-    status           VARCHAR(50)    NOT NULL
+    id SERIAL NOT NULL PRIMARY KEY,
+    currency_pair_id_uuid UUID           NOT NULL,
+    base_currency_code    VARCHAR(3)     NOT NULL,
+    target_currency_code  VARCHAR(3)     NOT NULL,
+    base_rate_value        DECIMAL(15, 2) NOT NULL,
+    adjusted_rate_value  DECIMAL(15, 2),
+    status_status           VARCHAR(50)    NOT NULL
 );
 CREATE TABLE negotiations
 (

@@ -31,7 +31,7 @@ class DBSupportedCurrencyRepository implements SupportedCurrencyRepository
         $baseCurrencyCode = ValueObjectPropertyGetter::getValueUsingReflection($baseCurrency, 'code');
         $targetCurrencyCode = ValueObjectPropertyGetter::getValueUsingReflection($targetCurrency, 'code');
 
-        $queryString = "SELECT sc FROM SupportedCurrency sc WHERE sc.baseCurrency.code = :baseCurrencyCode AND sc.targetCurrency.code = :targetCurrencyCode";
+        $queryString = "SELECT sc FROM " . SupportedCurrency::class . " sc WHERE sc.baseCurrency.code = :baseCurrencyCode AND sc.targetCurrency.code = :targetCurrencyCode";
         $query = $this->entityManager->createQuery($queryString);
         $query->setParameter('baseCurrencyCode', $baseCurrencyCode);
         $query->setParameter('targetCurrencyCode', $targetCurrencyCode);

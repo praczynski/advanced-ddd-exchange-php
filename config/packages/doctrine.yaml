@@ -32,6 +32,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Negotiation/Domain'
                 prefix: 'App\Negotiation\Domain'
                 alias: Negotiation
+            Currency:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Currency/Domain'
+                prefix: 'App\Currency\Domain'
+                alias: Currency
             Kernel:
                 is_bundle: false
                 type: attribute

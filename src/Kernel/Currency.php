@@ -44,4 +44,9 @@ class Currency
     {
         return $this->code;
     }
+
+    public function __toString(): string
+    {
+        return $this->toString();
+    }
 }

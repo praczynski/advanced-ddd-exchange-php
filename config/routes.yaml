@@ -16,6 +16,14 @@ negotiation_controllers:
         namespace: App\Negotiation\Ui
     type: annotation
 
+currency_pairs:
+    resource:
+        path: ../src/Currency/Ui
+        namespace: App\Currency\Ui
+    type: annotation
+
+
+
 app.swagger_ui:
     path: /api/doc
     methods: GET

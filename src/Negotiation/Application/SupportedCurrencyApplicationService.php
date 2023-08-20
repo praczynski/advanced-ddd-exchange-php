@@ -9,7 +9,9 @@ use App\Kernel\Currency;
 use App\Negotiation\Domain\Supportedcurrency\Rate;
 use App\Negotiation\Domain\Supportedcurrency\SupportedCurrency;
 use App\Negotiation\Domain\Supportedcurrency\SupportedCurrencyRepository;
+use Exception;
 use http\Exception\RuntimeException;
+
 
 class SupportedCurrencyApplicationService
 {
@@ -50,7 +52,7 @@ class SupportedCurrencyApplicationService
         $optionalSupportedCurrency = $this->repository->findByCurrency($baseCurrency, $targetCurrency);
 
         if ($optionalSupportedCurrency === null) {
-            throw new RuntimeException("SupportedCurrency not found");
+            throw new Exception("SupportedCurrency not found");
         }
 
         return $optionalSupportedCurrency;

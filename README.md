@@ -24,6 +24,7 @@
 - composer require brick/math
 - symfony/swiftmailer-bundle
 - symfony/profiler-pack
+- symfony/http-client
 
 
 ## Run project 

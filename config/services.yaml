@@ -77,3 +77,19 @@ services:
             $eventBuses: !tagged_iterator app.negotiation.event.bus
 
 
+
+   #Currency event buses
+    App\Currency\Application\CurrencyPairApplicationService:
+        arguments:
+            $domainEventBus: !tagged_iterator app.currency.event.bus
+
+    App\Currency\Infrastructure\Amqp\AMQPCurrencyPairEventBus:
+        arguments:
+            $serializer: '@Symfony\Component\Serializer\SerializerInterface'
+            $producer: '@old_sound_rabbit_mq.identity_producer_producer'
+        tags:
+            - { name: 'app.currency.event.bus' }
+
+    App\Infrastructure\eventbroker\currency\CurrencyPairEventBroker:
+        tags:
+            - { name: 'app.currency.event.bus' }
