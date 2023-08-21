@@ -68,4 +68,12 @@ class Money
         return $this->value->compareTo($money->value);
     }
 
+    public function equals(Money $money): bool
+    {
+        if ($this === $money) {
+            return true;
+        }
+
+        return $this->value->equals($money->value) && $this->currency->equals($money->currency);
+    }
 }

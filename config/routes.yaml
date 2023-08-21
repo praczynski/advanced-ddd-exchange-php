@@ -22,6 +22,11 @@ currency_pairs:
         namespace: App\Currency\Ui
     type: annotation
 
+quoting:
+    resource:
+        path: ../src/Quoting/Ui
+        namespace: App\Quoting\Ui
+    type: annotation
 
 
 app.swagger_ui:

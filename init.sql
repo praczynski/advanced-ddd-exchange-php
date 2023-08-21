@@ -39,17 +39,18 @@ CREATE TABLE wallets
 
 CREATE TABLE quotes
 (
-    quote_id                            UUID           NOT NULL PRIMARY KEY,
-    requester_identity_id               UUID           NOT NULL,
-    expiration_date                     TIMESTAMP      NOT NULL,
-    best_exchange_rate_currency_to_sell VARCHAR(3)     NOT NULL,
-    best_exchange_rate_currency_to_buy  VARCHAR(3)     NOT NULL,
-    best_exchange_rate                  DECIMAL(15, 2) NOT NULL,
-    to_exchange_value                   DECIMAL(15, 2) NOT NULL,
-    to_exchange_currency                VARCHAR(3)     NOT NULL,
-    exchanged_value                     DECIMAL(15, 2) NOT NULL,
-    exchanged_currency                  VARCHAR(3)     NOT NULL,
-    status                              VARCHAR(255)   NOT NULL
+    id SERIAL NOT NULL PRIMARY KEY,
+    quote_number_uuid                            UUID           NOT NULL,
+    requester_identity_id_uuid               UUID           NOT NULL,
+    expiration_date_expiration_date TIMESTAMP      NOT NULL,
+    best_exchange_rate_currency_to_sell_code VARCHAR(3)     NOT NULL,
+    best_exchange_rate_currency_to_buy_code  VARCHAR(3)     NOT NULL,
+    best_exchange_rate_rate_value_value   DECIMAL(15, 2) NOT NULL,
+    money_to_exchange_value_value                   DECIMAL(15, 2) NOT NULL,
+    money_to_exchange_currency_code                VARCHAR(3)     NOT NULL,
+    money_exchanged_value_value                     DECIMAL(15, 2) NOT NULL,
+    money_exchanged_currency_code             VARCHAR(3)     NOT NULL,
+    quote_status_status                              VARCHAR(255)   NOT NULL
 );
 
 CREATE TABLE currency_pairs

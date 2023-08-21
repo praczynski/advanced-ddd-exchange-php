@@ -15,7 +15,7 @@ class FindAcceptedActiveNegotiationRateCommand
     private BigDecimal $proposedExchangeAmount;
     private Currency $proposedExchangeCurrency;
 
-    public function __construct(IdentityId $identityId,Currency $baseCurrency,Currency $targetCurrency, BigDecimal $proposedExchangeAmount, Currency $proposedExchangeCurrency)
+    public function __construct(IdentityId $identityId, Currency $baseCurrency,Currency $targetCurrency, BigDecimal $proposedExchangeAmount, Currency $proposedExchangeCurrency)
     {
         $this->identityId = $identityId;
         $this->baseCurrency = $baseCurrency;

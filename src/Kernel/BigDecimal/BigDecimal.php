@@ -103,4 +103,9 @@ class BigDecimal
     {
         return $converter($this->identityId);
     }
+
+    public function equals(BigDecimal $other): bool
+    {
+        return $this->value->compareTo($other->value) === 0;
+    }
 }

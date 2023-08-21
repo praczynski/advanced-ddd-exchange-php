@@ -93,3 +93,26 @@ services:
     App\Infrastructure\eventbroker\currency\CurrencyPairEventBroker:
         tags:
             - { name: 'app.currency.event.bus' }
+
+  #Quorting service
+
+    App\Quoting\Infrastructure\NegotiationExchangeRateAdvisor:
+        arguments:
+            $negotiationApplicationService: '@App\Negotiation\Application\NegotiationApplicationService'
+        tags:
+            - { name: 'app.exchange_rate_advisor' }
+
+    App\Quoting\Infrastructure\RestBaseCurrencyExchangeRateAdvisor:
+        arguments:
+            $currencyPairApplicationService: '@App\Currency\Application\CurrencyPairApplicationService'
+        tags:
+            - { name: 'app.exchange_rate_advisor' }
+
+    App\Quoting\Infrastructure\SubscriptionExchangeRateAdvisor:
+        tags:
+            - { name: 'app.exchange_rate_advisor' }
+
+    App\Quoting\Application\QuoteApplicationService:
+        arguments:
+            $currencyExchangeRateAdvisors: !tagged_iterator app.exchange_rate_advisor
+

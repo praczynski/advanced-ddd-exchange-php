@@ -38,6 +38,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Currency/Domain'
                 prefix: 'App\Currency\Domain'
                 alias: Currency
+            Quoting:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Quoting/Domain'
+                prefix: 'App\Quoting\Domain'
+                alias: Quoting
             Kernel:
                 is_bundle: false
                 type: attribute

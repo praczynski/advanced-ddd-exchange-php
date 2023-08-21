@@ -124,7 +124,6 @@ class DBNegotiationRepository implements NegotiationRepository
             $result = $query->getSingleResult();
             return BigDecimal::fromBrickBigDecimal($result['negotiationRate.proposedRate.value']);
         } catch (Exception $e) {
-            print_r($e);
             return null;
         }
     }
