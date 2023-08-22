@@ -5,6 +5,7 @@ namespace App\Account\Ui;
 use App\Account\Application\AccountApplicationService;
 use App\Account\Application\DepositFundCommand;
 use App\Account\Application\DepositFundsByCardCommand;
+use App\Account\Application\ExchangeRateCommand;
 use App\Account\Application\TransferFundsBetweenAccountCommand;
 use App\Account\Application\WithdrawFundsCommand;
 use App\Account\Domain\WalletData;
@@ -139,32 +140,32 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/accounts/transferFundsBetweenWallets/{traderNumber}", name="transfer_funds_between_wallets", methods={"POST"})
+     * @Route("/accounts/buyCurrency/{traderNumber}", name="buy_currency", methods={"POST"})
      *
      * @OA\Post(
      *     tags={"Account"},
-     *     summary="Transfers funds between wallets",
+     *     summary="Buy currency",
      *
      *     @OA\RequestBody(
-     *         description="Funds transfer data",
+     *         description="Buy currency data",
      *         required=true,
-     *         @OA\JsonContent(ref=@Model(type=TransferFundsBetweenWalletsRequest::class))
+     *         @OA\JsonContent(ref=@Model(type=FundToBuyRequest::class))
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Funds transferred",
+     *         description="Funds buyed",
      *     )
      * )
      */
-    public function transferFundsBetweenWallets(string $traderNumber, Request $request): Response
+    public function buyCurrency(string $traderNumber, Request $request): Response
     {
         try {
-            $transferRequest = $this->serializer->deserialize($request->getContent(), TransferFundsBetweenWalletsRequest::class, 'json');
+            $transferRequest = $this->serializer->deserialize($request->getContent(), FundToBuyRequest::class, 'json');
 
-            $moneyToBuy = new Money(BigDecimal::fromString($transferRequest->getMoneyToBuyValue()), new Currency($transferRequest->getMoneyToBuyCurrency()));
-            $moneyToSell = new Money(BigDecimal::fromString($transferRequest->getMoneyToSellValue()), new Currency($transferRequest->getMoneyToSellCurrency()));
+            $moneyToBuy = new Money(BigDecimal::fromString($transferRequest->getValue()), Currency::fromString($transferRequest->getCurrency()));
+            $exchangeRateCommand = new ExchangeRateCommand($transferRequest->getRateCurrencyToBuy(), $transferRequest->getrateCurrencyToBuy(), BigDecimal::fromString($transferRequest->getRateValue()));
 
-            $status = $this->accountService->transferFundsBetweenWallets($traderNumber, $moneyToBuy, $moneyToSell);
+            $status = $this->accountService->buyCurrency($traderNumber, $moneyToBuy, $exchangeRateCommand);
 
             $jsonString = $this->serializer->serialize($status, 'json');
             return new Response($jsonString, Response::HTTP_OK, ['Content-Type' => 'application/json']);

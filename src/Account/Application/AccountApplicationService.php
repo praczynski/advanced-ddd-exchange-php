@@ -11,6 +11,7 @@ use App\Account\Domain\Exception\AccountNotFoundException;
 use App\Account\Domain\Exception\InsufficientFundsException;
 use App\Account\Domain\Exception\TransactionLimitExceededException;
 use App\Account\Domain\Exception\WalletsLimitExceededException;
+use App\Account\Domain\ExchangeRate;
 use App\Account\Domain\Funds;
 use App\Account\Domain\TraderNumber;
 use App\Account\Domain\TransactionType;
@@ -117,27 +118,29 @@ class AccountApplicationService
         }
     }
 
-    public function transferFundsBetweenWallets(string $traderNumber, Money $currencyToBuy, Money $currencyToSell): BuyCurrencyStatus
-    {
-        try {
-            $account = $this->accountRepository->findAccountFor(TraderNumber::fromString($traderNumber));
+    public function buyCurrency(string $traderNumber, Money $currencyToBuy, ExchangeRateCommand $command): BuyCurrencyStatus {
 
-            if ($account === null) {
+        $exchangeRate = new ExchangeRate(
+            Currency::fromString($command->getCurrencyToSell()),
+            Currency::fromString($command->getCurrencyToBuy()),
+            $command->getRate()
+        );
+
+        try {
+            $account = $this->accountRepository->findAccountFor(new TraderNumber($traderNumber));
+
+            if (!$account) {
                 throw new AccountNotFoundException("Account not found");
             }
 
-            $account->transferFunds(Funds::fromMoney($currencyToBuy), Funds::fromMoney($currencyToSell), TransactionType::CURRENCY_EXCHANGE());
-
+            $account->exchangeCurrency(Funds::fromMoney($currencyToBuy), $exchangeRate, TransactionType::CURRENCY_EXCHANGE());
             $this->accountRepository->save($account);
+
             return BuyCurrencyStatus::BUY_SUCCESS();
-
         } catch (AccountNotFoundException $e) {
-
             $this->log->error("Account Not Found", ['exception' => $e]);
             return BuyCurrencyStatus::ACCOUNT_NOT_FOUND();
-
         } catch (InsufficientFundsException $e) {
-
             $this->log->error("Insufficient funds", ['exception' => $e]);
             return BuyCurrencyStatus::INSUFFICIENT_FUNDS();
         }
@@ -169,7 +172,7 @@ class AccountApplicationService
 
     public function transferFundsBetweenAccount(TransferFundsBetweenAccountCommand $command): TransferFundsStatus
     {
-        $fromAccount = $this->accountRepository->find(AccountNumber::fromString($command->getFromAccountId()));
+       /* $fromAccount = $this->accountRepository->find(AccountNumber::fromString($command->getFromAccountId()));
         $toAccount = $this->accountRepository->find(AccountNumber::fromString($command->getToAccountId()));
 
         if (!$fromAccount || !$toAccount) {
@@ -199,7 +202,8 @@ class AccountApplicationService
         } catch (WalletsLimitExceededException $e) {
             $this->log->error("Wallets Limit Exceeded", ['exception' => $e]);
             return TransferFundsStatus::WALLETS_LIMIT_EXCEEDED();
-        }
+        }*/
+        return TransferFundsStatus::TRANSFER_SUCCESS();
     }
 
     public function getAllWalletsForTrader(string $traderNumber): array

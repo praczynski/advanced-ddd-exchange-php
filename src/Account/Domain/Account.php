@@ -3,6 +3,7 @@
 namespace App\Account\Domain;
 
 use App\Account\Domain\Events\AccountActivated;
+use App\Account\Domain\Exception\InsufficientFundsException;
 use App\Account\Domain\Exception\TransactionLimitExceededException;
 use App\Account\Domain\Exception\WalletNotFoundException;
 use App\Account\Domain\Exception\WalletsLimitExceededException;
@@ -103,26 +104,10 @@ class Account {
         //$this->transactions[] = new Transaction($transactionType, $funds);
     }
 
-    public function transferFunds(Funds $currencyToBuy, Funds $currencyToSell, TransactionType $transactionType): void
-    {
-        $fromWallet = $this->getWalletByCurrency($currencyToSell);
-
-        if (!$fromWallet) {
-            throw new WalletNotFoundException();
-        }
-
-        $toWallet = $this->getWalletByCurrency($currencyToBuy);
-
-        if (!$toWallet) {
-            $toWallet = new Wallet($this, $currencyToBuy);
-            $this->wallets->add($toWallet);
-        }
-
-        $fromWallet->withdrawFunds($currencyToSell);
-        $toWallet->addFunds($currencyToBuy);
-        //$this->transactions[] = new Transaction($transactionType, $currencyToBuy);
+    public function exchangeCurrency(Funds $currencyToBuy, ExchangeRate $exchangeRate, TransactionType $transactionType): void {
+        $exchangeRate->calculate($currencyToBuy);
+       // $this->transactions[] = new Transaction($transactionType, $currencyToBuy);
     }
-
 
     public function accountNumber(): AccountNumber
     {
