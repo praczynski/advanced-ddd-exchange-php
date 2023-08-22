@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Quoting\Infrastructure;
+namespace App\Quoting\Infrastructure\Rest;
 
 use App\Currency\Application\CurrencyPairApplicationService;
 use App\Quoting\Domain\ExchangeRate;

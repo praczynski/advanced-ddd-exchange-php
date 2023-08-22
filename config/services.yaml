@@ -99,13 +99,13 @@ services:
 
   #Quorting service
 
-    App\Quoting\Infrastructure\NegotiationExchangeRateAdvisor:
-        arguments:
-            $negotiationApplicationService: '@App\Negotiation\Application\NegotiationApplicationService'
-        tags:
-            - { name: 'app.exchange_rate_advisor' }
+    #App\Quoting\Infrastructure\NegotiationExchangeRateAdvisor:
+    #    arguments:
+     #       $negotiationApplicationService: '@App\Negotiation\Application\NegotiationApplicationService'
+      #  tags:
+       #     - { name: 'app.exchange_rate_advisor' }
 
-    App\Quoting\Infrastructure\RestBaseCurrencyExchangeRateAdvisor:
+    App\Quoting\Infrastructure\Rest\RestBaseCurrencyExchangeRateAdvisor:
         arguments:
             $currencyPairApplicationService: '@App\Currency\Application\CurrencyPairApplicationService'
         tags:
