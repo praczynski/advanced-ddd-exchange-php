@@ -7,6 +7,7 @@ use App\Kernel\BigDecimal\BigDecimal;
 use App\Kernel\Currency;
 use App\Kernel\IdentityId;
 use App\Negotiation\Application\CreateNegotiationCommand;
+use App\Negotiation\Application\CreateNegotiationStatus;
 use App\Negotiation\Application\FindAcceptedActiveNegotiationRateCommand;
 use App\Negotiation\Application\NegotiationApplicationService;
 use Psr\Log\LoggerInterface;
