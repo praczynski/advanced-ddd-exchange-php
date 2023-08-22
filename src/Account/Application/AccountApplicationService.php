@@ -172,7 +172,7 @@ class AccountApplicationService
 
     public function transferFundsBetweenAccount(TransferFundsBetweenAccountCommand $command): TransferFundsStatus
     {
-       /* $fromAccount = $this->accountRepository->find(AccountNumber::fromString($command->getFromAccountId()));
+        $fromAccount = $this->accountRepository->find(AccountNumber::fromString($command->getFromAccountId()));
         $toAccount = $this->accountRepository->find(AccountNumber::fromString($command->getToAccountId()));
 
         if (!$fromAccount || !$toAccount) {
@@ -202,8 +202,7 @@ class AccountApplicationService
         } catch (WalletsLimitExceededException $e) {
             $this->log->error("Wallets Limit Exceeded", ['exception' => $e]);
             return TransferFundsStatus::WALLETS_LIMIT_EXCEEDED();
-        }*/
-        return TransferFundsStatus::TRANSFER_SUCCESS();
+        }
     }
 
     public function getAllWalletsForTrader(string $traderNumber): array
