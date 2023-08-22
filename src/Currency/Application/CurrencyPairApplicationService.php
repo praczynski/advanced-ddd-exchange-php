@@ -89,12 +89,13 @@ class CurrencyPairApplicationService
         }
 
         try {
-            $existingCurrencyPair->adjustExchangeRate($adjustedRate, $this->domainEventBus);
+            $existingCurrencyPair->adjustExchangeRate($adjustedRate);
 
             $this->repository->save($existingCurrencyPair);
 
             return UpdateCurrencyPairRateStatus::createSuccessStatus();
         } catch (Exception $e) {
+            print_r($e->getMessage());
             return UpdateCurrencyPairRateStatus::createCurrencyPairNotFoundStatus();
         }
     }

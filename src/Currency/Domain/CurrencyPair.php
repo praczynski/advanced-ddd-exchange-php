@@ -3,9 +3,6 @@
 namespace App\Currency\Domain;
 
 
-use App\Currency\Domain\Event\CurrencyPairActivated;
-use App\Currency\Domain\Event\CurrencyPairDeactivated;
-use App\Currency\Domain\Event\CurrencyPairExchangeRateAdjusted;
 use App\Kernel\BigDecimal\BigDecimal;
 use App\Kernel\Currency;
 use Doctrine\ORM\Mapping\Column;
@@ -46,28 +43,17 @@ class CurrencyPair {
         $this->targetCurrency = $targetCurrency;
     }
 
-    public function adjustExchangeRate(BigDecimal $adjustedRate, iterable $currencyPairDomainEventBus): void {
+    public function adjustExchangeRate(BigDecimal $adjustedRate): void {
         $this->exchangeRate = $this->exchangeRate->adjust($adjustedRate);
 
-        foreach ($currencyPairDomainEventBus as $eventBus) {
-            $eventBus->postCurrencyPairExchangeRateAdjusted(new CurrencyPairExchangeRateAdjusted($this->currencyPairId, $this->baseCurrency, $this->targetCurrency, $adjustedRate));
-        }
     }
 
     public function deactivate(iterable $eventBus): void {
         $this->status = Status::INACTIVE();
-
-        foreach ($eventBus as $eventBusItem) {
-            $eventBusItem->postCurrencyPairDeactivated(new CurrencyPairDeactivated($this->currencyPairId, $this->baseCurrency, $this->targetCurrency));
-        }
     }
 
     public function activate(iterable $eventBus): void {
         $this->status = Status::ACTIVE();
-
-        foreach ($eventBus as $eventBusItem) {
-            $eventBusItem->postCurrencyPairActivated(new CurrencyPairActivated($this->currencyPairId, $this->baseCurrency, $this->targetCurrency));
-        }
     }
 
     public function currencyPairId(): CurrencyPairId {

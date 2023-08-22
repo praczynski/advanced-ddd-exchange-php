@@ -65,13 +65,11 @@ class NegotiationApplicationService
                 return CreateNegotiationStatus::ALREADY_EXISTS();
             }
 
-            $activeCurrency = $this->supportedCurrencyRepository->findActiveByCurrency($command->getBaseCurrency(), $command->getTargetCurrency());
+            $baseExchangeRate = $this->baseExchangeRateAdvisor->baseExchangeRate($command->getBaseCurrency(), $command->getTargetCurrency());
 
-            if (!$activeCurrency) {
+            if (!$baseExchangeRate) {
                 return CreateNegotiationStatus::CURRENCY_PAIR_NOT_SUPPORTED();
            }
-
-            $baseExchangeRate = new BigDecimal("23");
 
             $negotiation = new Negotiation(
                 $negotiator,
