@@ -58,11 +58,12 @@ services:
 
     #Negotiation event buses
 
-    App\Negotiation\Application\NegotiationEventBus:
-        arguments:
-            $riskAssessmentApplicationService: '@App\Negotiation\Application\RiskAssessmentApplicationService'
-        tags:
-            - { name: 'app.negotiation.event.bus' }
+
+    #App\Negotiation\Application\NegotiationEventBus:
+        #arguments:
+            #$riskAssessmentApplicationService: '@App\Negotiation\Application\RiskAssessmentApplicationService'
+        #tags:
+            #- { name: 'app.negotiation.event.bus' }
 
     App\Negotiation\Infrastructure\Amqp\AMQPNegotiationEventBus:
         arguments:
@@ -74,14 +75,14 @@ services:
     App\Negotiation\Application\NegotiationApplicationService:
         arguments:
             $negotiationAmountAutomaticApprovePolicies: !tagged_iterator negotiation.automatic.approve.policy
-            $eventBuses: !tagged_iterator app.negotiation.event.bus
+            #$eventBuses: !tagged_iterator app.negotiation.event.bus
 
 
 
    #Currency event buses
     App\Currency\Application\CurrencyPairApplicationService:
         arguments:
-            $domainEventBus: !tagged_iterator app.currency.event.bus
+            #$domainEventBus: !tagged_iterator app.currency.event.bus
 
     App\Currency\Infrastructure\Amqp\AMQPCurrencyPairEventBus:
         arguments:
@@ -117,4 +118,3 @@ services:
     App\Quoting\Application\QuoteApplicationService:
         arguments:
             $currencyExchangeRateAdvisors: !tagged_iterator app.exchange_rate_advisor
-

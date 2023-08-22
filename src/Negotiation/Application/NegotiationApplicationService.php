@@ -3,8 +3,6 @@
 namespace App\Negotiation\Application;
 
 use App\Kernel\BigDecimal\BigDecimal;
-use App\Negotiation\Domain\Event\NegotiationApproved;
-use App\Negotiation\Domain\Event\NegotiationCreated;
 use App\Negotiation\Domain\Exception\NegotiationNotFoundException;
 use App\Negotiation\Domain\Negotiation;
 use App\Negotiation\Domain\NegotiationAcceptanceService;
@@ -28,7 +26,6 @@ class NegotiationApplicationService
     private BaseExchangeRateAdvisor $baseExchangeRateAdvisor;
     private NegotiationAcceptanceService $negotiationAcceptanceService;
     private SupportedCurrencyRepository $supportedCurrencyRepository;
-    private iterable $eventBuses;
 
     public function __construct(
         NegotiationRepository $negotiationRepository,
@@ -37,7 +34,6 @@ class NegotiationApplicationService
         BaseExchangeRateAdvisor $baseExchangeRateAdvisor,
         NegotiationAcceptanceService $negotiationAcceptanceService,
         SupportedCurrencyRepository $supportedCurrencyRepository,
-        iterable $eventBuses,
         LoggerInterface $LOG
     ) {
         $this->negotiationRepository = $negotiationRepository;
@@ -46,7 +42,6 @@ class NegotiationApplicationService
         $this->baseExchangeRateAdvisor = $baseExchangeRateAdvisor;
         $this->negotiationAcceptanceService = $negotiationAcceptanceService;
         $this->supportedCurrencyRepository = $supportedCurrencyRepository;
-        $this->eventBuses = $eventBuses;
         $this->LOG = $LOG;
     }
 
@@ -91,16 +86,9 @@ class NegotiationApplicationService
             $this->negotiationRepository->save($negotiation);
 
             if ($status->isApproved()) {
-                // $this->negotiationAcceptanceService->negotiationAccepted($negotiation);
-                foreach ($this->eventBuses as $eventBus) {
-                    $eventBus->postNegotiationApproved(new NegotiationApproved($negotiation->negotiationId(), $negotiation->negotiator(), $negotiation->proposedExchangeAmount()->asMoney()));
-                }
+                $this->negotiationAcceptanceService->negotiationAccepted($negotiation);
             } else {
                 $this->manualNegotiationApproveNotifier->notifyManualApprovalRequired();
-            }
-
-            foreach ($this->eventBuses as $eventBus) {
-                $eventBus->postNegotiationCreated(new NegotiationCreated($negotiation->negotiationId(), $negotiation->negotiator(), $negotiation->proposedExchangeAmount()->asMoney()));
             }
 
             $this->negotiationRepository->commit();

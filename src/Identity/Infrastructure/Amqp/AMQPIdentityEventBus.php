@@ -3,7 +3,6 @@
 namespace App\Identity\Infrastructure\Amqp;
 
 use App\Identity\Domain\Event\IdentityCreated;
-use App\Identity\Domain\IdentityDomainEventBus;
 use Exception;
 use http\Exception\RuntimeException;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
@@ -13,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class AMQPIdentityEventBus implements IdentityDomainEventBus
+class AMQPIdentityEventBus
 {
     private ProducerInterface $producer;
     private SerializerInterface $serializer;
@@ -24,17 +23,11 @@ class AMQPIdentityEventBus implements IdentityDomainEventBus
         $this->producer = $producer;
     }
 
-    public function post(IdentityCreated $event): void
-    {
-        try {
-            $jsonString = $this->serializer->serialize($event, 'json');
 
-            $headers = new AMQPTable(['eventType' => 'IdentityCreated']);
-            $properties = ['application_headers' => $headers];
+    //Do użycia w metodzie post z klasy IdentityDomainEventBus
+    //$jsonString = $this->serializer->serialize($event, 'json');
+    //$headers = new AMQPTable(['eventType' => 'IdentityCreated']);
+    //$properties = ['application_headers' => $headers];
+    //$this->producer->publish($jsonString, 'identityCreatedExchange', $properties);
 
-            $this->producer->publish($jsonString, 'identityCreatedExchange', $properties);
-        } catch (Exception $e) {
-            throw new RuntimeException($e->getMessage());
-        }
-    }
 }
