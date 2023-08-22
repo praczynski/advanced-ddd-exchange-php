@@ -100,7 +100,7 @@ class Account {
     }
 
     public function exchangeCurrency(Funds $currencyToBuy, ExchangeRate $exchangeRate, TransactionType $transactionType): void {
-        $exchangeRate->calculate($currencyToBuy);
+        $currencyToSell = $exchangeRate->calculate($currencyToBuy);
        // $this->transactions[] = new Transaction($transactionType, $currencyToBuy);
     }
 
