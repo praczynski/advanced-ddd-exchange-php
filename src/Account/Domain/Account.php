@@ -100,7 +100,24 @@ class Account {
     }
 
     public function exchangeCurrency(Funds $currencyToBuy, ExchangeRate $exchangeRate, TransactionType $transactionType): void {
-        $exchangeRate->calculate($currencyToBuy);
+        $currencyToSell = $exchangeRate->calculate($currencyToBuy);
+
+        $fromWallet = $this->getWalletByCurrency($currencyToSell);
+
+        if (!$fromWallet) {
+            throw new WalletNotFoundException();
+        }
+
+        $toWallet = $this->getWalletByCurrency($currencyToBuy);
+
+        if (!$toWallet) {
+            $toWallet = new Wallet($this, $currencyToBuy);
+            $this->wallets->add($toWallet);
+        }
+
+        $fromWallet->withdrawFunds($currencyToSell);
+        $toWallet->addFunds($currencyToBuy);
+
        // $this->transactions[] = new Transaction($transactionType, $currencyToBuy);
     }
 
