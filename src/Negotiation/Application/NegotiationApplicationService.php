@@ -104,7 +104,7 @@ class NegotiationApplicationService
 
             $negotiation = $this->negotiationRepository->findById(NegotiationId::fromString($negotiationId));
 
-            $negotiation->approve(OperatorId::fromString($operatorId), $this ->eventBuses);
+            $negotiation->approve(OperatorId::fromString($operatorId));
 
             $this->negotiationRepository->save($negotiation);
 

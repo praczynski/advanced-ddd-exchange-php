@@ -3,7 +3,6 @@
 namespace App\Identity\Application;
 
 use App\Identity\Domain\Email;
-use App\Identity\Domain\Event\IdentityCreated;
 use App\Identity\Domain\FirstName;
 use App\Identity\Domain\Identity;
 use App\Identity\Domain\IdentityAlreadyExistsException;

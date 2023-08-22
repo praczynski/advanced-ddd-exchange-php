@@ -20,15 +20,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Identity\Infrastructure\Amqp\AMQPIdentityEventBus:
-        arguments:
-            - '@serializer'
-            - '@old_sound_rabbit_mq.identity_producer_producer'
 
-    App\Account\Infrastructure\Amqp\AMQPAccountDomainEventBus:
-        arguments:
-            - '@serializer'
-            - '@old_sound_rabbit_mq.account_activated_producer_producer'
 
     App\Account\Infrastructure\Db\DBAccountRepository:
         tags:
@@ -58,44 +50,15 @@ services:
 
     #Negotiation event buses
 
-
-    #App\Negotiation\Application\NegotiationEventBus:
-        #arguments:
-            #$riskAssessmentApplicationService: '@App\Negotiation\Application\RiskAssessmentApplicationService'
-        #tags:
-            #- { name: 'app.negotiation.event.bus' }
-
-    App\Negotiation\Infrastructure\Amqp\AMQPNegotiationEventBus:
-        arguments:
-            $serializer: '@Symfony\Component\Serializer\SerializerInterface'
-            $producer: '@old_sound_rabbit_mq.negotiation_created_producer_producer'
-        tags:
-            - { name: 'app.negotiation.event.bus' }
-
     App\Negotiation\Application\NegotiationApplicationService:
         arguments:
             $negotiationAmountAutomaticApprovePolicies: !tagged_iterator negotiation.automatic.approve.policy
-            #$eventBuses: !tagged_iterator app.negotiation.event.bus
-
-
 
    #Currency event buses
     App\Currency\Application\CurrencyPairApplicationService:
         arguments:
-            #$domainEventBus: !tagged_iterator app.currency.event.bus
 
-    App\Currency\Infrastructure\Amqp\AMQPCurrencyPairEventBus:
-        arguments:
-            $serializer: '@Symfony\Component\Serializer\SerializerInterface'
-            $createdProducer: '@old_sound_rabbit_mq.currency_pair_created_producer_producer'
-            $adjustedProducer: '@old_sound_rabbit_mq.currency_pair_rate_adjusted_producer_producer'
-            $deactivatedProducer: '@old_sound_rabbit_mq.currency_pair_deactivated_producer_producer'
-        tags:
-            - { name: 'app.currency.event.bus' }
 
-    App\Infrastructure\eventbroker\currency\CurrencyPairEventBroker:
-        tags:
-            - { name: 'app.currency.event.bus' }
 
   #Quorting service
 

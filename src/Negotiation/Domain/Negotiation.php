@@ -3,7 +3,6 @@
 namespace App\Negotiation\Domain;
 
 use App\Kernel\Currency;
-use App\Negotiation\Domain\Event\NegotiationApproved;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
@@ -72,15 +71,12 @@ class Negotiation {
         return $this->status->isApproved() ? AutomaticNegotiationStatus::APPROVED() : AutomaticNegotiationStatus::PENDING();
     }
 
-    public function approve(OperatorId $operatorId, iterable $eventBuses): void
+    public function approve(OperatorId $operatorId): void
     {
         $this->operator = new Operator($operatorId);
         $this->status = Status::APPROVED();
         $this->expirationDate = ExpirationDate::oneHourExpirationDate();
 
-        foreach ($eventBuses as $eventBus) {
-            $eventBus->postNegotiationApproved(new NegotiationApproved($this->negotiationId, $this->negotiator, $this->proposedExchangeAmount->asMoney()));
-        }
     }
 
     public function reject(OperatorId $operatorId): void

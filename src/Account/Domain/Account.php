@@ -2,8 +2,6 @@
 
 namespace App\Account\Domain;
 
-use App\Account\Domain\Events\AccountActivated;
-use App\Account\Domain\Exception\InsufficientFundsException;
 use App\Account\Domain\Exception\TransactionLimitExceededException;
 use App\Account\Domain\Exception\WalletNotFoundException;
 use App\Account\Domain\Exception\WalletsLimitExceededException;
@@ -51,11 +49,8 @@ class Account {
         $this->wallets->add(new Wallet($this, Funds::zeroPLN()));
     }
 
-    public function activateAccount(AccountDomainEventBus $eventsBus): void {
+    public function activateAccount(): void {
        $this->status = Status::createActive();
-        $eventsBus->post(new AccountActivated($this->trader->identity(function($identity) {
-            return $identity;
-        })));
     }
 
     public function depositFunds(Funds $funds, TransactionType $transactionType): void

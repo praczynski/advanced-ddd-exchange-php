@@ -3,7 +3,6 @@
 namespace App\Account\Application;
 
 use App\Account\Domain\Account;
-use App\Account\Domain\AccountDomainEventBus;
 use App\Account\Domain\AccountFactory;
 use App\Account\Domain\AccountNumber;
 use App\Account\Domain\AccountRepository;
@@ -29,13 +28,11 @@ class AccountApplicationService
     private LoggerInterface $log;
     private AccountRepository $accountRepository;
     private AccountFactory $accountFactory;
-    private AccountDomainEventBus $eventBus;
 
-    public function __construct(AccountRepository $dbAccountRepository, AccountFactory $accountFactory, AccountDomainEventBus $eventBus, LoggerInterface $log)
+    public function __construct(AccountRepository $dbAccountRepository, AccountFactory $accountFactory, LoggerInterface $log)
     {
         $this->accountRepository = $dbAccountRepository;
         $this->accountFactory = $accountFactory;
-        $this->eventBus = $eventBus;
         $this->log = $log;
     }
 
@@ -64,7 +61,7 @@ class AccountApplicationService
         $account = $this->accountRepository->find($accountNumber);
 
         if ($account !== null) {
-            $account->activateAccount($this->eventBus);
+            $account->activateAccount();
             $this->accountRepository->save($account);
             return ActivateAccountStatus::successStatus();
         } else {
