@@ -105,7 +105,7 @@ services:
         tags:
             - { name: 'app.exchange_rate_advisor' }
 
-    App\Quoting\Infrastructure\RestBaseCurrencyExchangeRateAdvisor:
+    App\Quoting\Infrastructure\APPBaseCurrencyExchangeRateAdvisor:
         arguments:
             $currencyPairApplicationService: '@App\Currency\Application\CurrencyPairApplicationService'
         tags:
