@@ -3,7 +3,6 @@
 namespace App\Negotiation\Application;
 
 use App\Kernel\BigDecimal\BigDecimal;
-use App\Kernel\Currency;
 use App\Negotiation\Domain\Event\NegotiationApproved;
 use App\Negotiation\Domain\Event\NegotiationCreated;
 use App\Negotiation\Domain\Exception\NegotiationNotFoundException;
@@ -53,7 +52,7 @@ class NegotiationApplicationService
 
     public function createNegotiation(CreateNegotiationCommand $command): CreateNegotiationStatus
     {
-        //$this->entityManager->beginTransaction();
+        $this->negotiationRepository->beginTransaction();
 
         try {
             $negotiator = Negotiator::fromIdentity($command->getIdentityId());
@@ -104,11 +103,11 @@ class NegotiationApplicationService
                 $eventBus->postNegotiationCreated(new NegotiationCreated($negotiation->negotiationId(), $negotiation->negotiator(), $negotiation->proposedExchangeAmount()->asMoney()));
             }
 
-           // $this->entityManager->commit();
+            $this->negotiationRepository->commit();
 
             return $status->isApproved() ? CreateNegotiationStatus::APPROVED() : CreateNegotiationStatus::PENDING();
         } catch (Exception $e) {
-           // $this->entityManager->rollback();
+            $this->negotiationRepository->rollback();
             throw $e;
         }
     }
@@ -142,7 +141,7 @@ class NegotiationApplicationService
 
             $this->negotiationRepository->save($negotiation);
 
-            $this->manualNegotiationApproveNotifier->notifyNegotiationRejected($negotiationId->toString());
+            $this->manualNegotiationApproveNotifier->notifyNegotiationRejected($negotiationId);
 
         } catch (NegotiationNotFoundException $e) {
             $this->LOG->error('Negotiation not found', ['exception' => $e]);

@@ -7,18 +7,17 @@ use App\Kernel\BigDecimal\BigDecimal;
 use App\Kernel\Currency;
 use App\Kernel\IdentityId;
 use App\Negotiation\Application\CreateNegotiationCommand;
-use App\Negotiation\Application\CreateNegotiationStatus;
 use App\Negotiation\Application\FindAcceptedActiveNegotiationRateCommand;
 use App\Negotiation\Application\NegotiationApplicationService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use OpenApi\Annotations as OA;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class NegotiationController extends AbstractController
 {

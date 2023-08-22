@@ -8,33 +8,40 @@ use App\Currency\Domain\Event\CurrencyPairCreated;
 use App\Currency\Domain\Event\CurrencyPairDeactivated;
 use App\Currency\Domain\Event\CurrencyPairDomainEventBus;
 use App\Currency\Domain\Event\CurrencyPairExchangeRateAdjusted;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 
 class AMQPCurrencyPairEventBus implements CurrencyPairDomainEventBus
 {
-    private ProducerInterface $producer;
+    private ProducerInterface $createdProducer;
+    private ProducerInterface $adjustedProducer;
+    private ProducerInterface $deactivatedProducer;
     private SerializerInterface $serializer;
 
-    public function __construct(SerializerInterface $serializer, ProducerInterface $producer)
+    public function __construct(SerializerInterface $serializer,  ProducerInterface $createdProducer, ProducerInterface $adjustedProducer, ProducerInterface $deactivatedProducer)
     {
         $this->serializer = $serializer;
-        $this->producer = $producer;
+        $this->createdProducer = $createdProducer;
+        $this->adjustedProducer = $adjustedProducer;
+        $this->deactivatedProducer = $deactivatedProducer;
+
     }
 
     public function postCurrencyPairCreated(CurrencyPairCreated $event): void
     {
-        $this->publish($event, 'currencyPairCreatedExchange');
+        $this->publish($this->createdProducer, $event);
     }
 
     public function postCurrencyPairExchangeRateAdjusted(CurrencyPairExchangeRateAdjusted $event): void
     {
-        $this->publish($event, 'currencyPairRateAdjustedExchange');
+        $this->publish($this->adjustedProducer, $event);
     }
 
     public function postCurrencyPairDeactivated(CurrencyPairDeactivated $event): void
     {
-        $this->publish($event, 'currencyPairDeactivatedExchange');
+        $this->publish($this->deactivatedProducer, $event);
     }
 
     public function postCurrencyPairActivated(CurrencyPairActivated $event): void
@@ -42,13 +49,13 @@ class AMQPCurrencyPairEventBus implements CurrencyPairDomainEventBus
 
     }
 
-    private function publish($event, string $exchangeName): void
+    private function publish(ProducerInterface $producer, $event): void
     {
         try {
             $jsonString = $this->serializer->serialize($event, 'json');
-            $this->producer->publish($jsonString, $exchangeName);
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
+            $producer->publish($jsonString);
+        } catch (Exception $e) {
+            throw new RuntimeException($e->getMessage());
         }
     }
 }

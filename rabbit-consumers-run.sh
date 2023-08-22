@@ -1,6 +1,6 @@
 #!/bin/bash
 
-consumers=("identity_consumer" "identity_consumer" "identity_consumer")
+consumers=("identity_consumer_account" "identity_consumer_promotion" "negotiation_created_consumer_promotion" "account_activated_consumer_promotion")
 
 for consumer in ${consumers[@]}
 do

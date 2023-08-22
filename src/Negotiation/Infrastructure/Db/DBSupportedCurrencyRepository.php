@@ -4,7 +4,6 @@ namespace App\Negotiation\Infrastructure\Db;
 
 use App\Infrastructure\reflection\ValueObjectPropertyGetter;
 use App\Kernel\Currency;
-
 use App\Negotiation\Domain\Supportedcurrency\Status;
 use App\Negotiation\Domain\Supportedcurrency\SupportedCurrency;
 use App\Negotiation\Domain\Supportedcurrency\SupportedCurrencyRepository;
@@ -62,4 +61,5 @@ class DBSupportedCurrencyRepository implements SupportedCurrencyRepository
             return null;
         }
     }
+
 }

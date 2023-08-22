@@ -44,6 +44,18 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Quoting/Domain'
                 prefix: 'App\Quoting\Domain'
                 alias: Quoting
+            Promotion:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Promotion/Domain'
+                prefix: 'App\Promotion\Domain'
+                alias: Promotion
+            PromotionSaga:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/PromotionSaga'
+                prefix: 'App\PromotionSaga'
+                alias: PromotionSaga
             Kernel:
                 is_bundle: false
                 type: attribute

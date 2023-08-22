@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use OpenApi\Annotations as OA;
-
 class RiskAssessmentController
 {
     private RiskAssessmentApplicationService $riskAssessmentApplicationService;

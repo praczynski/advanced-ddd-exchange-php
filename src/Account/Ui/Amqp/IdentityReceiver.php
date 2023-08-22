@@ -2,7 +2,7 @@
 
 namespace App\Account\Ui\Amqp;
 
-use App\Account\Application\AccountApplicationService;
+use  App\Account\Application\AccountApplicationService;
 use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;

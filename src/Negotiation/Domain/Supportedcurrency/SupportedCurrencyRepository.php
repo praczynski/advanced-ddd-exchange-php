@@ -11,4 +11,6 @@ interface SupportedCurrencyRepository
     function findByCurrency(Currency $baseCurrency, Currency $targetCurrency): ?SupportedCurrency;
 
     function findActiveByCurrency(Currency $baseCurrency, Currency $targetCurrency): ?SupportedCurrency;
+
+
 }

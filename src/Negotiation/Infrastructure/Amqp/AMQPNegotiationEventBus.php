@@ -9,6 +9,7 @@ use App\Negotiation\Domain\Event\NegotiationCreated;
 use App\Negotiation\Domain\NegotiationDomainEventBus;
 use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
+use PhpAmqpLib\Wire\AMQPTable;
 use RuntimeException;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -26,9 +27,13 @@ class AMQPNegotiationEventBus implements NegotiationDomainEventBus
     public function postNegotiationCreated(NegotiationCreated $event): void
     {
         try {
-            $identity = $event->getNegotiator()->identity(fn($identityId) => $identityId->toString());
-            $jsonString = $this->serializer->serialize($identity, 'json');
-            $this->producer->publish($jsonString, 'negotiationCreatedExchange');
+            $headers = new AMQPTable(['eventType' => 'NegotiationCreated']);
+            $properties = ['application_headers' => $headers];
+            $identity = $event->getNegotiator()->identity(fn($identityId) => $identityId);
+            $identityIdMessage = new IdentityIdMessage($identity->toString());
+            $jsonString = $this->serializer->serialize($identityIdMessage, 'json');
+
+            $this->producer->publish($jsonString, 'negotiationCreatedExchange', $properties);
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -37,6 +42,7 @@ class AMQPNegotiationEventBus implements NegotiationDomainEventBus
     public function postNegotiationApproved(NegotiationApproved $event): void
     {
     }
+
 }
 
 

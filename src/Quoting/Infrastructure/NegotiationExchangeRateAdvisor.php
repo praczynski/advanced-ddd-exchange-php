@@ -3,7 +3,6 @@
 namespace App\Quoting\Infrastructure;
 
 
-use App\Kernel\BigDecimal\BigDecimal;
 use App\Kernel\Currency;
 use App\Negotiation\Application\FindAcceptedActiveNegotiationRateCommand;
 use App\Negotiation\Application\NegotiationApplicationService;

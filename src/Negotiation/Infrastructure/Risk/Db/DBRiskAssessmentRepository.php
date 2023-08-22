@@ -3,9 +3,9 @@
 namespace App\Negotiation\Infrastructure\Risk\Db;
 
 use App\Infrastructure\reflection\ValueObjectPropertyGetter;
+use App\Negotiation\Domain\Negotiator;
 use App\Negotiation\Domain\Risk\RiskAssessment;
 use App\Negotiation\Domain\Risk\RiskAssessmentNumber;
-use App\Negotiation\Domain\Negotiator;
 use App\Negotiation\Domain\Risk\RiskAssessmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;

@@ -127,4 +127,19 @@ class DBNegotiationRepository implements NegotiationRepository
             return null;
         }
     }
+
+    function beginTransaction(): void
+    {
+        $this->entityManager->beginTransaction();
+    }
+
+    function commit(): void
+    {
+        $this->entityManager->commit();
+    }
+
+    function rollback(): void
+    {
+        $this->entityManager->rollback();
+    }
 }

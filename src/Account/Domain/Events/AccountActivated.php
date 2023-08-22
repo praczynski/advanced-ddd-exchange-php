@@ -5,13 +5,13 @@ namespace App\Account\Domain\Events;
 use App\Kernel\IdentityId;
 
 class AccountActivated {
-    private IdentityId $identityId;
+    private string $identityId;
 
     public function __construct(IdentityId $identityId) {
-        $this->identityId = $identityId;
+        $this->identityId = $identityId->toString();
     }
 
-    public function getIdentityId(): IdentityId {
+    public function getIdentityId(): string {
         return $this->identityId;
     }
 }

@@ -10,7 +10,6 @@ use App\Negotiation\Domain\Supportedcurrency\Rate;
 use App\Negotiation\Domain\Supportedcurrency\SupportedCurrency;
 use App\Negotiation\Domain\Supportedcurrency\SupportedCurrencyRepository;
 use Exception;
-use http\Exception\RuntimeException;
 
 
 class SupportedCurrencyApplicationService

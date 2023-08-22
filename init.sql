@@ -1,7 +1,7 @@
 CREATE TABLE identities
 (
     id SERIAL NOT NULL PRIMARY KEY,
-    version INT NOT NULL,
+    version INT,
     identity_id_uuid UUID         NOT NULL,
     pesel_value       VARCHAR(11)  NOT NULL,
     first_name_value  VARCHAR(255) NOT NULL,
@@ -110,16 +110,18 @@ CREATE TABLE supported_currencies
 );
 CREATE TABLE new_client_promotions
 (
-    identity_id         UUID    NOT NULL,
+    id SERIAL NOT NULL PRIMARY KEY,
+    identity_id_uuid         UUID    NOT NULL,
     account_activated   BOOLEAN NOT NULL,
     negotiation_created BOOLEAN NOT NULL
 );
 
 CREATE TABLE promotions
 (
-    promotion_number UUID         NOT NULL PRIMARY KEY,
-    identity_id      UUID         NOT NULL,
-    promotion_type   VARCHAR(255) NOT NULL
+    id SERIAL NOT NULL PRIMARY KEY,
+    promotion_number_uuid UUID         NOT NULL,
+    target_customer_identity_id_uuid      UUID         NOT NULL,
+    type   VARCHAR(255) NOT NULL
 );
 
 INSERT INTO identities (identity_id_uuid, version, pesel_value, first_name_value, surname_value, email_value) VALUES

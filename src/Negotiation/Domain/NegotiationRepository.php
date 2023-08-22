@@ -13,4 +13,7 @@ interface NegotiationRepository {
     function alreadyExistsActiveNegotiationForNegotiator(Negotiator $negotiator, Currency $baseCurrency, Currency $targetCurrency, BigDecimal $rate, ProposedExchangeAmount $proposedExchangeAmount): bool;
     function findApprovedRateById(NegotiationId $negotiationId): ?BigDecimal;
     function findAcceptedActiveNegotiation(Negotiator $negotiator, Currency $baseCurrency, Currency $targetCurrency, ProposedExchangeAmount $proposedExchangeAmount): ?BigDecimal;
+    function beginTransaction(): void;
+    function commit(): void;
+    function rollback(): void;
 }

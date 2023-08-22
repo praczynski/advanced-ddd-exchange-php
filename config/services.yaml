@@ -28,7 +28,7 @@ services:
     App\Account\Infrastructure\Amqp\AMQPAccountDomainEventBus:
         arguments:
             - '@serializer'
-            - '@old_sound_rabbit_mq.identity_producer_producer'
+            - '@old_sound_rabbit_mq.account_activated_producer_producer'
 
     App\Account\Infrastructure\Db\DBAccountRepository:
         tags:
@@ -67,7 +67,7 @@ services:
     App\Negotiation\Infrastructure\Amqp\AMQPNegotiationEventBus:
         arguments:
             $serializer: '@Symfony\Component\Serializer\SerializerInterface'
-            $producer: '@old_sound_rabbit_mq.identity_producer_producer'
+            $producer: '@old_sound_rabbit_mq.negotiation_created_producer_producer'
         tags:
             - { name: 'app.negotiation.event.bus' }
 
@@ -86,7 +86,9 @@ services:
     App\Currency\Infrastructure\Amqp\AMQPCurrencyPairEventBus:
         arguments:
             $serializer: '@Symfony\Component\Serializer\SerializerInterface'
-            $producer: '@old_sound_rabbit_mq.identity_producer_producer'
+            $createdProducer: '@old_sound_rabbit_mq.currency_pair_created_producer_producer'
+            $adjustedProducer: '@old_sound_rabbit_mq.currency_pair_rate_adjusted_producer_producer'
+            $deactivatedProducer: '@old_sound_rabbit_mq.currency_pair_deactivated_producer_producer'
         tags:
             - { name: 'app.currency.event.bus' }
 

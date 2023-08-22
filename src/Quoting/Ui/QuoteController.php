@@ -30,7 +30,7 @@ class QuoteController extends AbstractController
     }
 
     /**
-     * @Route("/prepare-quote", name="prepare_quote", methods={"POST"})
+     * @Route("/quotes/prepare-quote", name="prepare_quote", methods={"POST"})
      *
      * @Operation(
      *     tags={"Quote"},
@@ -63,7 +63,7 @@ class QuoteController extends AbstractController
     }
 
     /**
-     * @Route("/{quoteId}/accept", name="accept_quote", methods={"PUT"})
+     * @Route("/quotes/{quoteId}/accept", name="accept_quote", methods={"PUT"})
      *
      * @Operation(
      *     tags={"Quote"},
@@ -90,7 +90,7 @@ class QuoteController extends AbstractController
     }
 
     /**
-     * @Route("/{quoteId}/reject", name="reject_quote", methods={"PUT"})
+     * @Route("/quotes/{quoteId}/reject", name="reject_quote", methods={"PUT"})
      *
      * @Operation(
      *     tags={"Quote"},

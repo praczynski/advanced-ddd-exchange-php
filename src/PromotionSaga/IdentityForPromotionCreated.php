@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Account\Ui\Amqp;
+namespace App\PromotionSaga;
 
 
-class IdentityCreatedEvent
-{
+class IdentityForPromotionCreated {
     private string $identityId;
     private string $pesel;
     private string $firstName;
@@ -25,28 +24,23 @@ class IdentityCreatedEvent
         $this->email = $email;
     }
 
-    public function getIdentityId(): string
-    {
+    public function getIdentityId(): string    {
         return $this->identityId;
     }
 
-    public function getPesel(): string
-    {
+    public function getPesel(): string {
         return $this->pesel;
     }
 
-    public function getFirstName(): string
-    {
+    public function getFirstName(): string {
         return $this->firstName;
     }
 
-    public function getSurname(): string
-    {
+    public function getSurname(): string {
         return $this->surname;
     }
 
-    public function getEmail(): string
-    {
+    public function getEmail(): string {
         return $this->email;
     }
 }

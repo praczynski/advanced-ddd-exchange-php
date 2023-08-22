@@ -13,9 +13,47 @@ old_sound_rabbit_mq:
             connection:       default
             exchange_options: { name: 'identityCreatedExchange', type: fanout }
 
+        negotiation_created_producer:
+            connection: default
+            exchange_options: { name: 'negotiationCreatedExchange', type: fanout }
+
+        account_activated_producer:
+            connection: default
+            exchange_options: { name: 'accountActivatedExchange', type: fanout }
+
+        currency_pair_created_producer:
+            connection: default
+            exchange_options: { name: 'currencyPairCreatedExchange', type: fanout }
+
+        currency_pair_rate_adjusted_producer:
+            connection: default
+            exchange_options: { name: 'currencyPairRateAdjustedExchange', type: fanout }
+
+        currency_pair_deactivated_producer:
+            connection: default
+            exchange_options: { name: 'currencyPairDeactivatedExchange', type: fanout }
+
     consumers:
-        identity_consumer:
+        identity_consumer_account:
             connection:       default
             exchange_options: { name: 'identityCreatedExchange', type: fanout }
             queue_options:    { name: 'identityCreatedQueue.account' }
             callback:         'App\Account\Ui\Amqp\IdentityConsumer'
+
+        identity_consumer_promotion:
+            connection: default
+            exchange_options: { name: 'identityCreatedExchange', type: fanout }
+            queue_options: { name: 'identityCreatedQueueForPromotion' }
+            callback: 'App\PromotionSaga\NewClientPromotionSaga'
+
+        negotiation_created_consumer_promotion:
+            connection: default
+            exchange_options: { name: 'negotiationCreatedExchange', type: fanout }
+            queue_options: { name: 'negotiationCreatedQueueForPromotion' }
+            callback: 'App\PromotionSaga\NewClientPromotionSaga'
+
+        account_activated_consumer_promotion:
+            connection: default
+            exchange_options: { name: 'accountActivatedExchange', type: fanout }
+            queue_options: { name: 'accountActivatedQueueForPromotion' }
+            callback: 'App\PromotionSaga\NewClientPromotionSaga'
