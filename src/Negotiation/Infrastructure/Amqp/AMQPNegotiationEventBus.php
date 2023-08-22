@@ -4,16 +4,13 @@ namespace App\Negotiation\Infrastructure\Amqp;
 
 
 
-use App\Negotiation\Domain\Event\NegotiationApproved;
-use App\Negotiation\Domain\Event\NegotiationCreated;
-use App\Negotiation\Domain\NegotiationDomainEventBus;
 use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use PhpAmqpLib\Wire\AMQPTable;
 use RuntimeException;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class AMQPNegotiationEventBus implements NegotiationDomainEventBus
+class AMQPNegotiationEventBus
 {
     private ProducerInterface $producer;
     private SerializerInterface $serializer;
@@ -24,7 +21,7 @@ class AMQPNegotiationEventBus implements NegotiationDomainEventBus
         $this->producer = $producer;
     }
 
-    public function postNegotiationCreated(NegotiationCreated $event): void
+    /*public function postNegotiationCreated(NegotiationCreated $event): void
     {
         try {
             $headers = new AMQPTable(['eventType' => 'NegotiationCreated']);
@@ -42,6 +39,7 @@ class AMQPNegotiationEventBus implements NegotiationDomainEventBus
     public function postNegotiationApproved(NegotiationApproved $event): void
     {
     }
+    */
 
 }
 

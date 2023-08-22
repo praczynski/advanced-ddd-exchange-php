@@ -3,17 +3,13 @@
 namespace App\Currency\Infrastructure\Amqp;
 
 
-use App\Currency\Domain\Event\CurrencyPairActivated;
-use App\Currency\Domain\Event\CurrencyPairCreated;
-use App\Currency\Domain\Event\CurrencyPairDeactivated;
-use App\Currency\Domain\Event\CurrencyPairDomainEventBus;
 use App\Currency\Domain\Event\CurrencyPairExchangeRateAdjusted;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 
-class AMQPCurrencyPairEventBus implements CurrencyPairDomainEventBus
+class AMQPCurrencyPairEventBus
 {
     private ProducerInterface $createdProducer;
     private ProducerInterface $adjustedProducer;
@@ -29,7 +25,7 @@ class AMQPCurrencyPairEventBus implements CurrencyPairDomainEventBus
 
     }
 
-    public function postCurrencyPairCreated(CurrencyPairCreated $event): void
+    /*public function postCurrencyPairCreated(CurrencyPairCreated $event): void
     {
         $this->publish($this->createdProducer, $event);
     }
@@ -57,5 +53,5 @@ class AMQPCurrencyPairEventBus implements CurrencyPairDomainEventBus
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());
         }
-    }
+    }*/
 }
