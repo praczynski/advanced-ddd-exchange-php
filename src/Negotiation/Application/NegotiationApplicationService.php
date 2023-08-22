@@ -24,24 +24,18 @@ class NegotiationApplicationService
     private ManualNegotiationApproveNotifier $manualNegotiationApproveNotifier;
     private iterable $negotiationAmountAutomaticApprovePolicies;
     private BaseExchangeRateAdvisor $baseExchangeRateAdvisor;
-    private NegotiationAcceptanceService $negotiationAcceptanceService;
-    private SupportedCurrencyRepository $supportedCurrencyRepository;
 
     public function __construct(
         NegotiationRepository $negotiationRepository,
         ManualNegotiationApproveNotifier $manualNegotiationApproveNotifier,
         iterable $negotiationAmountAutomaticApprovePolicies,
         BaseExchangeRateAdvisor $baseExchangeRateAdvisor,
-        NegotiationAcceptanceService $negotiationAcceptanceService,
-        SupportedCurrencyRepository $supportedCurrencyRepository,
         LoggerInterface $LOG
     ) {
         $this->negotiationRepository = $negotiationRepository;
         $this->manualNegotiationApproveNotifier = $manualNegotiationApproveNotifier;
         $this->negotiationAmountAutomaticApprovePolicies = $negotiationAmountAutomaticApprovePolicies;
         $this->baseExchangeRateAdvisor = $baseExchangeRateAdvisor;
-        $this->negotiationAcceptanceService = $negotiationAcceptanceService;
-        $this->supportedCurrencyRepository = $supportedCurrencyRepository;
         $this->LOG = $LOG;
     }
 
@@ -84,7 +78,6 @@ class NegotiationApplicationService
             $this->negotiationRepository->save($negotiation);
 
             if ($status->isApproved()) {
-                $this->negotiationAcceptanceService->negotiationAccepted($negotiation);
             } else {
                 $this->manualNegotiationApproveNotifier->notifyManualApprovalRequired();
             }

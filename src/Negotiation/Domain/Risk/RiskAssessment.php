@@ -49,13 +49,7 @@ class RiskAssessment {
     }
 
     public function addNegotiation(NegotiationId $negotiationId, RiskNegotiationValue $riskNegotiationValue): void {
-        $this->riskLines->add(new RiskLine($this, $negotiationId, $riskNegotiationValue));
 
-        if ($this->riskLines->count() > 10 && $this->riskLines->count() < 50) {
-            $this->riskLevel = RiskLevel::MEDIUM();
-        } else if ($this->riskLines->count() > 50) {
-            $this->riskLevel = RiskLevel::HIGH();
-        }
     }
 
     public function changeRiskLevel(RiskLevel $riskLevel): void {
