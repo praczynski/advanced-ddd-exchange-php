@@ -4,6 +4,7 @@ namespace App\Identity\Domain;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;
+use InvalidArgumentException;
 
 #[Embeddable]
 class Email
@@ -14,14 +15,14 @@ class Email
     public function __construct(string $value)
     {
         if (!$this->isValid($value)) {
-            throw new \InvalidArgumentException("Invalid email: " . $value);
+            throw new InvalidArgumentException("Invalid email: " . $value);
         }
         $this->value = $value;
     }
 
     public function equals(Email $email): bool
     {
-        return $this->value === $email->getValue();
+        return $this->value === $email->value;
     }
 
     private function isValid(string $value): bool

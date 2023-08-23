@@ -101,7 +101,7 @@ class BigDecimal
      */
     public function identity(callable $converter): mixed
     {
-        return $converter($this->identityId);
+        return $converter($this->value);
     }
 
     public function equals(BigDecimal $other): bool
