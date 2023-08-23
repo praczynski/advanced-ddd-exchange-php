@@ -122,7 +122,7 @@ class Account {
 
         $fromWallet->withdrawFunds($currencyToSell);
 
-        //$this->transactions[] = new Transaction($transactionType, $currencyToBuy);
+       // $this->transactions[] = new Transaction($transactionType, $currencyToBuy);
     }
 
 

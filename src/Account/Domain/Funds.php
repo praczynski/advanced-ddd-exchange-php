@@ -10,9 +10,6 @@ use App\Kernel\Money;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
-use Exception;
-use InvalidArgumentException;
-use RuntimeException;
 
 #[Embeddable]
 class Funds {
@@ -23,7 +20,7 @@ class Funds {
     private function __construct(Money $money)
     {
         if($money->isNegative()){
-            throw new InvalidArgumentException("Value cannot be negative");
+            throw new \InvalidArgumentException("Value cannot be negative");
         }
         $this->value = $money;
     }
@@ -31,7 +28,7 @@ class Funds {
     public static function fromValueAndCurrency(BigDecimal $value, Currency $currency): self
     {
         if ($value->getScale() > 2 || $value->compareTo(new BigDecimal("0")) < 0) {
-            throw new InvalidArgumentException("Value cannot have more than 2 decimal places");
+            throw new \InvalidArgumentException("Value cannot have more than 2 decimal places");
         }
 
         return new Funds(new Money($value, $currency));
@@ -48,12 +45,12 @@ class Funds {
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function addFunds(Funds $funds): self {
 
         if(!$this->value->theSameMoneyCurrency($funds->value)){
-            throw new RuntimeException("Currencies must be the same");
+            throw new \RuntimeException("Currencies must be the same");
         }
 
         return new Funds($this->value->add($funds->value));
