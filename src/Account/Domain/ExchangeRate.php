@@ -5,7 +5,6 @@ namespace App\Account\Domain;
 use App\Kernel\BigDecimal\BigDecimal;
 use App\Kernel\Currency;
 use Exception;
-use http\Exception\RuntimeException;
 
 class ExchangeRate {
     private Currency $currencyToSell;
