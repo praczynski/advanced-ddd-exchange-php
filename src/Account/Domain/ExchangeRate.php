@@ -4,7 +4,7 @@ namespace App\Account\Domain;
 
 use App\Kernel\BigDecimal\BigDecimal;
 use App\Kernel\Currency;
-use http\Exception\RuntimeException;
+use Exception;
 
 class ExchangeRate {
     private Currency $currencyToSell;
@@ -20,7 +20,7 @@ class ExchangeRate {
     public function calculate(Funds $value): Funds
     {
         if (!$value->isSameCurrency($this->currencyToBuy)) {
-            throw new RuntimeException("Different currencies");
+            throw new Exception("Different currencies");
         }
         return $value->multiply($this->rate, $this->currencyToSell);
     }
