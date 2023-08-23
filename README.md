@@ -96,4 +96,80 @@ https://github.com/doctrine/orm/issues/10898
 Verify - local and remote message routing 
 https://symfony.com/doc/current/messenger.html
 
+### Excercise 1 
+On /accounts/buyCurrency/XYZ-01-2023-123'
+send:
 
+{
+"value": "10",
+"currency": "PLN",
+"rateCurrencyToBuy": "PLN",
+"rateCurrencyToSell": "EU",
+"rateValue": "4.2"
+}
+
+### Excercise 2
+
+On /accounts/transfer/{fromAccountId}/{toAccountId}
+send:
+
+{
+"amount": "10",
+"currency": "PLN"
+}
+
+
+### Excercise 3 
+
+1. Add currency pair
+
+On /currency-pair/add
+send: 
+
+{
+"baseCurrency": "PLN",
+"targetCurrency": "EUR"
+}
+
+
+2. Create negotiation
+On /negotiations/create
+Send
+
+{
+"identityId": "123e4567-e89b-12d3-a456-426655440002",
+"baseCurrency": "PLN",
+"targetCurrency": "EUR",
+"proposedExchangeAmount": "50",
+"proposedExchangeCurrency": "EUR",
+"proposedRate": "0.22"
+}
+
+3. Check database
+
+select * from negotiations; 
+
+select * from risk_assessments;
+
+4. Automatice approve negotiation
+On /negotiations/create
+   Send
+
+{
+"identityId": "123e4567-e89b-12d3-a456-426655440002",
+"baseCurrency": "PLN",
+"targetCurrency": "EUR",
+"proposedExchangeAmount": "100000",
+"proposedExchangeCurrency": "EUR",
+"proposedRate": "0.22"
+}
+
+4.1 Manual negotiation approve
+send request on /negotiations/approve
+
+check db select * from negotiations;
+
+5. check database
+
+select * from negotiations;
+select * from risk_assessments;

@@ -110,7 +110,7 @@ class NegotiationApplicationService
 
             $this->manualNegotiationApproveNotifier->notifyNegotiationApproved($negotiationId);
 
-            // $this->negotiationAcceptanceService->negotiationAccepted($negotiation);
+            $this->negotiationAcceptanceService->negotiationAccepted($negotiation);
 
         } catch (NegotiationNotFoundException $e) {
             $this->LOG->error('Negotiation not found', ['exception' => $e]);
