@@ -5,7 +5,6 @@ namespace App\Negotiation\Application;
 use App\Kernel\BigDecimal\BigDecimal;
 use App\Negotiation\Domain\Exception\NegotiationNotFoundException;
 use App\Negotiation\Domain\Negotiation;
-use App\Negotiation\Domain\NegotiationAcceptanceService;
 use App\Negotiation\Domain\NegotiationId;
 use App\Negotiation\Domain\NegotiationRate;
 use App\Negotiation\Domain\NegotiationRepository;
@@ -102,8 +101,6 @@ class NegotiationApplicationService
             $this->negotiationRepository->save($negotiation);
 
             $this->manualNegotiationApproveNotifier->notifyNegotiationApproved($negotiationId);
-
-            // $this->negotiationAcceptanceService->negotiationAccepted($negotiation);
 
         } catch (NegotiationNotFoundException $e) {
             $this->LOG->error('Negotiation not found', ['exception' => $e]);
