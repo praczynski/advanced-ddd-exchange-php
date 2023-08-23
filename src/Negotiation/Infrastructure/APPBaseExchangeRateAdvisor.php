@@ -25,6 +25,6 @@ class APPBaseExchangeRateAdvisor implements BaseExchangeRateAdvisor
             return null;
         }
 
-        return $currencyPair->getExchangeRate();
+        return BigDecimal::fromString($currencyPair->getExchangeRate());
     }
 }
