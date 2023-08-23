@@ -71,7 +71,7 @@ class CurrencyPairApplicationService
         }
 
         try {
-            $existingCurrencyPair->deactivate($this->domainEventBus);
+            $existingCurrencyPair->deactivate();
             $this->repository->save($existingCurrencyPair);
             return DeactivateCurrencyPairStatus::createSuccessStatus();
         } catch (Exception $e) {
@@ -89,12 +89,13 @@ class CurrencyPairApplicationService
         }
 
         try {
-            $existingCurrencyPair->adjustExchangeRate($adjustedRate, $this->domainEventBus);
+            $existingCurrencyPair->adjustExchangeRate($adjustedRate);
 
             $this->repository->save($existingCurrencyPair);
 
             return UpdateCurrencyPairRateStatus::createSuccessStatus();
         } catch (Exception $e) {
+            print_r($e->getMessage() . "\n" . $e->getTraceAsString() . "\n");
             return UpdateCurrencyPairRateStatus::createCurrencyPairNotFoundStatus();
         }
     }
