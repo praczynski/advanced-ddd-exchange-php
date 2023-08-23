@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Embedded;
-use Doctrine\ORM\Mapping\EmbeddedId;
 
 #[Entity]
 #[Table(name:"currency_pairs")]
@@ -48,11 +47,11 @@ class CurrencyPair {
 
     }
 
-    public function deactivate(iterable $eventBus): void {
+    public function deactivate(): void {
         $this->status = Status::INACTIVE();
     }
 
-    public function activate(iterable $eventBus): void {
+    public function activate(): void {
         $this->status = Status::ACTIVE();
     }
 

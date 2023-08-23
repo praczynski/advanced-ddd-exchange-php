@@ -71,7 +71,7 @@ class CurrencyPairApplicationService
         }
 
         try {
-            $existingCurrencyPair->deactivate($this->domainEventBus);
+            $existingCurrencyPair->deactivate();
             $this->repository->save($existingCurrencyPair);
             return DeactivateCurrencyPairStatus::createSuccessStatus();
         } catch (Exception $e) {
