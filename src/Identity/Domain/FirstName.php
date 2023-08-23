@@ -5,6 +5,7 @@ namespace App\Identity\Domain;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;
+use InvalidArgumentException;
 
 #[Embeddable]
 class FirstName
@@ -16,7 +17,7 @@ class FirstName
     {
         if(trim($value) === '')
         {
-            throw new \InvalidArgumentException("Invalid first name: " . $value);
+            throw new InvalidArgumentException("Invalid first name: " . $value);
         }
         $this->value = $value;
     }

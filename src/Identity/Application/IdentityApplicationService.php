@@ -14,6 +14,7 @@ use App\Identity\Domain\PESEL;
 use App\Identity\Domain\Surname;
 use App\Kernel\IdentityId;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 class IdentityApplicationService
 {
@@ -72,7 +73,7 @@ class IdentityApplicationService
        $identity = $this->identityRepository->findByIdentityId($identityId);
 
         if (!$identity) {
-            throw new \RuntimeException("Identity not found");
+            throw new RuntimeException("Identity not found");
         }
 
         return new GetIdentityStatus(

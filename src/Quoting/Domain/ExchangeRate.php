@@ -5,6 +5,7 @@ namespace App\Quoting\Domain;
 use App\Kernel\Currency;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
+use RuntimeException;
 
 #[Embeddable]
 class ExchangeRate {
@@ -19,7 +20,7 @@ class ExchangeRate {
 
     private function __construct(Currency $currencyToSell, Currency $currencyToBuy, Rate $rate) {
         if ($currencyToSell->equals($currencyToBuy)) {
-            throw new \RuntimeException("Currencies are the same");
+            throw new RuntimeException("Currencies are the same");
         }
         $this->currencyToSell = $currencyToSell;
         $this->currencyToBuy = $currencyToBuy;
@@ -32,10 +33,10 @@ class ExchangeRate {
 
     public function isMoreFavorableThan(ExchangeRate $rate): bool {
         if (!$this->currencyToBuy->equals($rate->currencyToBuy)) {
-            throw new \RuntimeException("Different currencies");
+            throw new RuntimeException("Different currencies");
         }
         if (!$this->currencyToSell->equals($rate->currencyToSell)) {
-            throw new \RuntimeException("Different currencies");
+            throw new RuntimeException("Different currencies");
         }
         return $this->rate->compareTo($rate->rate) > 0;
     }
@@ -69,7 +70,6 @@ class ExchangeRate {
 
     public function equalsRate(Rate $rate): bool {
         if ($this->rate == $rate) return true;
-        if ($rate == null) return false;
         return $this->rate->equals($rate);
     }
 }

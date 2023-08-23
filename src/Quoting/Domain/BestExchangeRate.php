@@ -52,7 +52,6 @@ class BestExchangeRate {
     }
 
     public function equals(ExchangeRate $rate): bool {
-        if ($rate === null) return false;
         return $rate->equalsRate($this->rate);
     }
 }

@@ -40,10 +40,6 @@ class AccountApplicationService
 
     public function createAccount(IdentityId $identityId): CreateAccountStatus
     {
-        if (!$identityId) {
-            throw new \InvalidArgumentException("identityId cannot be null");
-        }
-
         $accountStatus = $this->accountFactory->createAccount($identityId);
         if ($accountStatus->isSuccess()) {
             $this->accountRepository->save($accountStatus->account());

@@ -8,6 +8,7 @@ use App\Kernel\Currency;
 use App\Kernel\Money;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
+use InvalidArgumentException;
 
 #[Embeddable]
 class ProposedExchangeAmount
@@ -21,7 +22,7 @@ class ProposedExchangeAmount
     private function __construct(BigDecimal $value, Currency $currency)
     {
         if ($value->compareTo(new BigDecimal("0")) < 0) {
-            throw new \InvalidArgumentException("Value cannot be negative");
+            throw new InvalidArgumentException("Value cannot be negative");
         }
         $this->value = $value;
         $this->currency = $currency;

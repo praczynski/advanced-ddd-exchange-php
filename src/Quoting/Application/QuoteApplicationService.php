@@ -11,6 +11,7 @@ use App\Quoting\Domain\Quote;
 use App\Quoting\Domain\QuoteNumber;
 use App\Quoting\Domain\QuoteRepository;
 use App\Quoting\Domain\Requester;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidInterface;
 
@@ -71,7 +72,7 @@ class QuoteApplicationService
             $this->quoteRepository->save($preparedQuote);
 
             return PrepareQuoteStatus::prepareSuccessStatus($moneyExchanged, $preparedQuote->getQuoteId());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             throw $e;
         }
@@ -82,10 +83,6 @@ class QuoteApplicationService
         try {
             $quoteNumber = QuoteNumber::fromString($quoteId);
             $quote = $this->quoteRepository->getQuote($quoteNumber);
-
-            if (!$quote) {
-                throw new QuoteNotFoundException('Quote not found');
-            }
 
             $quote->accept();
             $this->quoteRepository->save($quote);

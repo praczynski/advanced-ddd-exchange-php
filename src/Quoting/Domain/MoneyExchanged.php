@@ -7,6 +7,7 @@ use App\Kernel\Currency;
 use App\Kernel\Money;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
+use RuntimeException;
 
 #[Embeddable]
 class MoneyExchanged {
@@ -18,7 +19,7 @@ class MoneyExchanged {
 
     public function __construct(BigDecimal $value, Currency $currency) {
         if($value->isNegativeOrZero()) {
-            throw new \RuntimeException("Value cannot be negative");
+            throw new RuntimeException("Value cannot be negative");
         }
         $this->value = $value;
         $this->currency = $currency;

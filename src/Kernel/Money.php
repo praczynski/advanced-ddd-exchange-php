@@ -7,6 +7,7 @@ use App\Kernel\BigDecimal\BigDecimal;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
+use InvalidArgumentException;
 
 #[Embeddable]
 class Money
@@ -26,7 +27,7 @@ class Money
     public function add(Money $money): Money
     {
         if (!$this->currency->equals($money->currency)) {
-            throw new \InvalidArgumentException('Currencies must be the same');
+            throw new InvalidArgumentException('Currencies must be the same');
         }
 
         return new Money($this->value->add($money->value), $this->currency);
@@ -35,7 +36,7 @@ class Money
     public function sub(Money $money): Money
     {
         if (!$this->currency->equals($money->currency)) {
-            throw new \InvalidArgumentException('Currencies must be the same');
+            throw new InvalidArgumentException('Currencies must be the same');
         }
 
         return new Money($this->value->subtract($money->value), $this->currency);

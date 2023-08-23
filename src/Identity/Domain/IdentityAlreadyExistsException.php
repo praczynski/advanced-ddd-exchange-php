@@ -2,7 +2,9 @@
 
 namespace App\Identity\Domain;
 
-class IdentityAlreadyExistsException extends \Exception
+use Exception;
+
+class IdentityAlreadyExistsException extends Exception
 {
     public function __construct(PESEL $pesel)
     {

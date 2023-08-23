@@ -4,8 +4,10 @@ namespace App\Account\Domain;
 
 
 
+use DateTime;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;
+use RuntimeException;
 
 #[Embeddable]
 class TraderNumber {
@@ -15,7 +17,7 @@ class TraderNumber {
 
     public function __construct(string $number) {
         if (!self::isValidTraderNumber($number)) {
-            throw new \RuntimeException("Incorrect trader number");
+            throw new RuntimeException("Incorrect trader number");
         }
         $this->value = $number;
     }
@@ -28,7 +30,7 @@ class TraderNumber {
 
         $letters = implode('', array_map(function ($n) { return chr(mt_rand(65, 90)); }, range(1, 3)));
 
-        $currentDate = new \DateTime();
+        $currentDate = new DateTime();
         $day = $currentDate->format('d');
         $year = $currentDate->format('Y');
 
@@ -40,7 +42,7 @@ class TraderNumber {
         return new self($traderNumber);
     }
     public static function isValidTraderNumber(string $traderNumber): bool {
-        if ($traderNumber === null || strlen($traderNumber) != 15) {
+        if (strlen($traderNumber) != 15) {
             return false;
         }
 

@@ -4,6 +4,7 @@ namespace App\Identity\Domain;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;
+use InvalidArgumentException;
 
 #[Embeddable]
 class PESEL {
@@ -13,7 +14,7 @@ class PESEL {
 
     public function __construct(string $value) {
         if (!$this->isValidPesel($value)) {
-            throw new \InvalidArgumentException("Invalid PESEL.");
+            throw new InvalidArgumentException("Invalid PESEL.");
         }
         $this->value = $value;
     }

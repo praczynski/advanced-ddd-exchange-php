@@ -3,6 +3,8 @@
 namespace App\Account\Domain;
 
 
+use DateTime;
+
 #[Entity]
 #[Table(name:"transactions")]
 class Transaction {
@@ -24,7 +26,7 @@ class Transaction {
         $this->number = TransactionNumber::generate();
         $this->type = $type;
         $this->value = $value;
-        $this->date = new TransactionTime(new \DateTime()); //
+        $this->date = new TransactionTime(new DateTime()); //
     }
 
     public function transactionDate(): TransactionTime {

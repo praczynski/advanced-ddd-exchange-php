@@ -6,6 +6,7 @@ namespace App\Negotiation\Domain\Risk;
 use App\Kernel\Money;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
+use InvalidArgumentException;
 
 #[Embeddable]
 class RiskNegotiationValue {
@@ -15,7 +16,7 @@ class RiskNegotiationValue {
 
      public function __construct(Money $value) {
         if($value->isNegative()) {
-            throw new \InvalidArgumentException("Value cannot be null");
+            throw new InvalidArgumentException("Value cannot be null");
         }
         $this->value = $value;
     }

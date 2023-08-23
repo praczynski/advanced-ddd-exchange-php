@@ -15,7 +15,7 @@ class Rate {
     private BigDecimal $value;
 
     private function __construct(BigDecimal $value) {
-        if ($value === null || $value->compareTo(BigDecimal::fromString("0")) < 0) {
+        if ($value->compareTo(BigDecimal::fromString("0")) < 0) {
             throw new RuntimeException("Rate cannot be null or negative");
         }
         $this->value = $value;

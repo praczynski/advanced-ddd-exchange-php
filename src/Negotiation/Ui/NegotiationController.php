@@ -10,6 +10,7 @@ use App\Negotiation\Application\CreateNegotiationCommand;
 use App\Negotiation\Application\CreateNegotiationStatus;
 use App\Negotiation\Application\FindAcceptedActiveNegotiationRateCommand;
 use App\Negotiation\Application\NegotiationApplicationService;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +56,7 @@ class NegotiationController extends AbstractController
      *         @OA\JsonContent(ref=@Model(type=CreateNegotiationStatus::class))
      *     )
      * )
-     * @throws \Exception
+     * @throws Exception
      */
     public function createNegotiation(Request $request): Response
     {

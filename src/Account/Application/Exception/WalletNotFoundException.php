@@ -2,7 +2,9 @@
 
 namespace App\Account\Application\Exception;
 
-class WalletNotFoundException extends \RuntimeException
+use RuntimeException;
+
+class WalletNotFoundException extends RuntimeException
 {
     public function __construct(string $message)
     {

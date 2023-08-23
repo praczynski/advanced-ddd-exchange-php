@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Embedded;
-use Doctrine\ORM\Mapping\EmbeddedId;
 
 #[Entity]
 #[Table(name:"currency_pairs")]
@@ -66,7 +65,7 @@ class CurrencyPair {
         $this->status = Status::ACTIVE();
 
         foreach ($eventBus as $eventBusItem) {
-            $eventBusItem->postCurrencyPairActivated(new CurrencyPairActivated($this->currencyPairId, $this->baseCurrency, $this->targetCurrency));
+            $eventBusItem->postCurrencyPairActivated(new CurrencyPairActivated($this->baseCurrency, $this->targetCurrency));
         }
     }
 
