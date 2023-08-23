@@ -7,6 +7,7 @@ use Brick\Math\BigDecimal as BrickBigDecimal;
 use Brick\Math\RoundingMode;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;
+use InvalidArgumentException;
 
 #[Embeddable]
 class BigDecimal
@@ -19,10 +20,10 @@ class BigDecimal
         try {
             $this->value = BrickBigDecimal::of($value);
             if ($this->value->getScale() > 2) {
-                throw new \InvalidArgumentException('Value cannot have more than 2 decimal places');
+                throw new InvalidArgumentException('Value cannot have more than 2 decimal places');
             }
         } catch (MathException $e) {
-            throw new \InvalidArgumentException('Invalid value');
+            throw new InvalidArgumentException('Invalid value');
         }
     }
 
@@ -101,7 +102,7 @@ class BigDecimal
      */
     public function identity(callable $converter): mixed
     {
-        return $converter($this->identityId);
+        return $converter($this->value);
     }
 
     public function equals(BigDecimal $other): bool
