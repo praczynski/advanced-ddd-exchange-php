@@ -163,7 +163,7 @@ class AccountController extends AbstractController
             $transferRequest = $this->serializer->deserialize($request->getContent(), FundToBuyRequest::class, 'json');
 
             $moneyToBuy = new Money(BigDecimal::fromString($transferRequest->getValue()), Currency::fromString($transferRequest->getCurrency()));
-            $exchangeRateCommand = new ExchangeRateCommand($transferRequest->getRateCurrencyToBuy(), $transferRequest->getrateCurrencyToBuy(), BigDecimal::fromString($transferRequest->getRateValue()));
+            $exchangeRateCommand = new ExchangeRateCommand($transferRequest->getRateCurrencyToBuy(), $transferRequest->getRateCurrencyToSell(), BigDecimal::fromString($transferRequest->getRateValue()));
 
             $status = $this->accountService->buyCurrency($traderNumber, $moneyToBuy, $exchangeRateCommand);
 

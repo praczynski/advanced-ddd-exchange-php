@@ -69,7 +69,7 @@ class Funds {
 
     public function sumFunds(Funds $funds, Funds $funds2): Funds {
         if (!$funds->value->theSameMoneyCurrency($funds2->value)) {
-            throw new DifferentCurrenciesException($funds->value->toString(), $funds2->value->toString());
+            throw new DifferentCurrenciesException();
         }
         return new Funds($funds->value->add($funds2->value));
     }
@@ -99,9 +99,6 @@ class Funds {
     }
 
     public function multiply(BigDecimal $rate, Currency $currency): Funds {
-        if (!$this->value->theSameCurrency($currency)) {
-            throw new DifferentCurrenciesException();
-        }
         $multipliedValue = $this->value->multiply($rate);
         return new Funds(new Money($multipliedValue, $currency));
     }
