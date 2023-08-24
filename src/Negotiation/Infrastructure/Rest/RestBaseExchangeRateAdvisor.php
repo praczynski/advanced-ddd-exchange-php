@@ -8,25 +8,27 @@ use App\Kernel\BigDecimal\BigDecimal;
 use App\Kernel\Currency;
 use App\Negotiation\Application\BaseExchangeRateAdvisor;
 use Exception;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class RestBaseExchangeRateAdvisor implements BaseExchangeRateAdvisor
 {
-
-    private const ENDPOINT = "http://127.0.0.1:8000/currency-pair";
     private HttpClientInterface $client;
+    private RequestStack $requestStack;
 
-    public function __construct(HttpClientInterface $client)
+    public function __construct(HttpClientInterface $client, RequestStack $requestStack)
     {
         $this->client = $client;
+        $this->requestStack = $requestStack;
     }
 
     public function baseExchangeRate(Currency $baseCurrency, Currency $targetCurrency): ?BigDecimal
     {
+        $getBaseUrl = $this->getBaseUrl();
         try {
             $response = $this->client->request(
                 'GET',
-                self::ENDPOINT . "/{$baseCurrency->toString()}/{$targetCurrency->toString()}"
+                $getBaseUrl . "/currency-pair/{$baseCurrency->toString()}/{$targetCurrency->toString()}"
             );
 
             $data = $response->toArray();
@@ -41,5 +43,14 @@ class RestBaseExchangeRateAdvisor implements BaseExchangeRateAdvisor
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    private function getBaseUrl(): string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request !== null) {
+            return $request->getSchemeAndHttpHost();
+        }
+        return 'http://127.0.0.1:8000';
     }
 }
