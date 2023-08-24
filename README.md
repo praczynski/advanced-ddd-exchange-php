@@ -7,7 +7,7 @@
 - PHP 8.2.8
 - Symfony 6.3
 - Composer 
-- Symfony CLI
+- Docker 
 
 ### Dependencies 
 - composer require symfony/orm-pack -W
@@ -28,16 +28,16 @@
 
 
 ## Run project 
-symfony server:start
-symfony server:stop
-http://127.0.0.1:8000
+docker compose up -d 
+docker compose exec php composer install
+http://localhost
 
 
 ## Run rabbit and postgress 
 run docker-compose.yml
 
 ### Swagger
-http://127.0.0.1:8000/api/doc
+http://localhost/api/doc
 
 ### MailCatcher
 http://localhost:64185/

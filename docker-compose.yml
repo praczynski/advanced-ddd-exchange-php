@@ -1,7 +1,32 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
+  nginx:
+    build:
+      context: ./docker/nginx
+    depends_on:
+      - php
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes_from:
+      - php:ro
+  php:
+    build:
+      context: ./docker
+      target: php
+    ports:
+        - "9000:9000"
+    volumes:
+      - .:/app
+  worker:
+    build:
+      context: ./docker
+      target: worker
+    depends_on:
+      - php
+    volumes:
+      - .:/app
   exchange-db:
     image: postgres:latest
     container_name: exchange-db_container
@@ -14,17 +39,11 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
-
   rabbitmq:
     image: rabbitmq:3-management
     container_name: exchange-rabbit
     ports:
       - "5672:5672"
       - "15672:15672"
-
-
 volumes:
-###> doctrine/doctrine-bundle ###
   exchange_database_data_2:
-
-###< doctrine/doctrine-bundle ###
